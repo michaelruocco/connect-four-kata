@@ -15,10 +15,7 @@ public class Grid {
 
     public Grid() {
         columns = new Column[NUMBER_OF_COLUMNS];
-        for (int c = 0; c < columns.length; c ++) {
-            int id = c + 1;
-            columns[c] = new Column(id, NUMBER_OF_ROWS);
-        }
+        reset();
     }
 
     public int numberOfRows() {
@@ -29,7 +26,7 @@ public class Grid {
         return columns.length;
     }
 
-    public void placeToken(int column, String token) {
+    public void dropToken(int column, String token) {
         getColumn(column).placeToken(token);
     }
 
@@ -46,6 +43,21 @@ public class Grid {
         }
         s.append(NEW_LINE);
         return s.toString();
+    }
+
+    public boolean hasWinner(String token) {
+        for (Column column : columns)
+            if (column.hasWinner(token))
+                return true;
+
+        return false;
+    }
+
+    public void reset() {
+        for (int c = 0; c < columns.length; c ++) {
+            int id = c + 1;
+            columns[c] = new Column(id, NUMBER_OF_ROWS);
+        }
     }
 
     private Column getColumn(int column) {
@@ -100,6 +112,21 @@ public class Grid {
                 return EMPTY_TOKEN;
             }
             return tokens.get(index);
+        }
+
+        public boolean hasWinner(String checkToken) {
+            int count = 0;
+            for (String token : tokens) {
+                if (!token.equals(checkToken)) {
+                    count++;
+                    if (count > 4) {
+                        return true;
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+            return false;
         }
 
         private int getRowIndex(int row) {

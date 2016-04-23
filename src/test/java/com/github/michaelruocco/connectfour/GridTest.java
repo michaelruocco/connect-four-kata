@@ -21,14 +21,14 @@ public class GridTest {
     }
 
     @Test
-    public void gridHasMaxColums() {
+    public void gridHasMaxColumns() {
         assertThat(grid.numberOfColumns()).isEqualTo(MAX_COLUMNS);
     }
 
     @Test
-    public void canPlaceTokenOnGrid() {
+    public void canDropTokenIntoGrid() {
         int column = 1;
-        addTokensToColumn(RED_TOKEN, column, 1);
+        dropTokensInColumn(RED_TOKEN, column, 1);
 
         assertThat(grid.getToken(column, 1)).isEqualTo(RED_TOKEN);
     }
@@ -36,7 +36,7 @@ public class GridTest {
     @Test
     public void canStackTokens() {
         int column = MAX_COLUMNS;
-        addTokensToColumn(RED_TOKEN, column, 3);
+        dropTokensInColumn(RED_TOKEN, column, 3);
 
         assertThat(grid.getToken(column, 1)).isEqualTo(RED_TOKEN);
         assertThat(grid.getToken(column, 2)).isEqualTo(RED_TOKEN);
@@ -45,24 +45,24 @@ public class GridTest {
 
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnIndexLessThanOne() {
-        grid.placeToken(0, RED_TOKEN);
+        grid.dropToken(0, RED_TOKEN);
     }
 
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnIndexGreaterThanMaxColumns() {
-        grid.placeToken(MAX_COLUMNS + 1, RED_TOKEN);
+        grid.dropToken(MAX_COLUMNS + 1, RED_TOKEN);
     }
 
     @Test
     public void canFillColumn() {
         int column = 1;
-        addTokensToColumn(RED_TOKEN, column, MAX_ROWS);
+        dropTokensInColumn(RED_TOKEN, column, MAX_ROWS);
     }
 
     @Test(expected = ColumnFullException.class)
-    public void throwsErrorWhenTokenIsAddedToAFullColumn() {
+    public void throwsErrorWhenTokenIsDroppedIntoAFullColumn() {
         int column = 1;
-        addTokensToColumn(RED_TOKEN, column, MAX_ROWS + 1);
+        dropTokensInColumn(RED_TOKEN, column, MAX_ROWS + 1);
     }
 
     @Test
@@ -72,10 +72,10 @@ public class GridTest {
 
     @Test
     public void shouldReturnGridStateAsString() {
-        addTokensToColumn(RED_TOKEN, 2, 5);
-        addTokensToColumn(YELLOW_TOKEN, 3, 4);
-        addTokensToColumn(RED_TOKEN, 5, 2);
-        addTokensToColumn(YELLOW_TOKEN, 5, 2);
+        dropTokensInColumn(RED_TOKEN, 2, 5);
+        dropTokensInColumn(YELLOW_TOKEN, 3, 4);
+        dropTokensInColumn(RED_TOKEN, 5, 2);
+        dropTokensInColumn(YELLOW_TOKEN, 5, 2);
 
         StringBuilder expected = new StringBuilder();
         expected.append("- - - - - - -");
@@ -95,9 +95,20 @@ public class GridTest {
         assertThat(grid.asString()).isEqualTo(expected.toString());
     }
 
-    private void addTokensToColumn(String token, int column, int numberOfTokens) {
+    @Test
+    public void shouldReturnVerticalWinner() {
+        dropTokensInColumn(RED_TOKEN, 1, 4);
+        assertThat(grid.hasWinner(RED_TOKEN));
+        grid.reset();
+
+        dropTokensInColumn(YELLOW_TOKEN, 6, 2);
+        dropTokensInColumn(RED_TOKEN, 6, 4);
+        assertThat(grid.hasWinner(RED_TOKEN));
+    }
+
+    private void dropTokensInColumn(String token, int column, int numberOfTokens) {
         for (int t = 0; t < numberOfTokens; t++) {
-            grid.placeToken(column, token);
+            grid.dropToken(column, token);
         }
     }
 
