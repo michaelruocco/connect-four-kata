@@ -90,7 +90,6 @@ public class GridTest {
         expected.append(NEW_LINE);
         expected.append("- R Y - R - -");
         expected.append(NEW_LINE);
-        expected.append(NEW_LINE);
 
         assertThat(grid.asString()).isEqualTo(expected.toString());
     }
@@ -149,6 +148,33 @@ public class GridTest {
 
         grid.reset();
         assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
+    }
+
+    @Test
+    public void shouldReturnForwardSlashDiagonalWinner() {
+        dropTokensInColumn(YELLOW_TOKEN, 3, 1);
+        dropTokensInColumn(YELLOW_TOKEN, 4, 2);
+        dropTokensInColumn(YELLOW_TOKEN, 5, 3);
+        dropTokensInColumn(RED_TOKEN, 6, 2);
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
+
+        dropTokensInColumn(YELLOW_TOKEN, 6, 2);
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
+        grid.reset();
+    }
+
+    @Test
+    public void shouldReturnBackSlashDiagonalWinner() {
+        dropTokensInColumn(RED_TOKEN, 2, 2);
+        dropTokensInColumn(YELLOW_TOKEN, 2, 2);
+        dropTokensInColumn(YELLOW_TOKEN, 3, 3);
+        dropTokensInColumn(YELLOW_TOKEN, 4, 2);
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
+
+        dropTokensInColumn(YELLOW_TOKEN, 5, 1);
+        System.out.println(grid.asString());
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
+        grid.reset();
     }
 
     private void dropTokensInColumn(String token, int column, int numberOfTokens) {

@@ -1,5 +1,6 @@
 package com.github.michaelruocco.connectfour;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -43,15 +44,23 @@ public class Grid {
             s.append(row.asString());
             s.append(NEW_LINE);
         }
-        s.append(NEW_LINE);
         return s.toString();
     }
 
     public boolean hasWinner(String token) {
+        if (noTokensDropped())
+            return false;
+
         if (hasVerticalWinner(token))
             return true;
 
         if (hasHorizontalWinner(token))
+            return true;
+
+        if (hasForwardSlashDiagonalWinner(token))
+            return true;
+
+        if (hasBackSlashDiagonalWinner(token))
             return true;
 
         return false;
@@ -66,9 +75,6 @@ public class Grid {
     }
 
     private boolean hasVerticalWinner(String token) {
-        if (noTokensDropped())
-            return false;
-
         if (lastDroppedColumn.hasWinner(token))
             return true;
 
@@ -76,14 +82,81 @@ public class Grid {
     }
 
     private boolean hasHorizontalWinner(String token) {
-        if (noTokensDropped())
-            return false;
-
-        Row row = getRow(lastDroppedColumn.getTop());
+        Row row = getLastDroppedRow();
         if (row.hasWinner(token))
             return true;
 
         return false;
+    }
+
+    private boolean hasForwardSlashDiagonalWinner(String token) {
+        List<String> tokens = getForwardSlashDiagonalTokensFromLastDroppedColumn();
+        StreakChecker checker = new StreakChecker(tokens);
+        return checker.containsStreak(token);
+    }
+
+    private boolean hasBackSlashDiagonalWinner(String token) {
+        List<String> tokens = getBackSlashDiagonalTokensFromLastDroppedColumn();
+        StreakChecker checker = new StreakChecker(tokens);
+        return checker.containsStreak(token);
+    }
+
+    private List<String> getForwardSlashDiagonalTokensFromLastDroppedColumn() {
+        Point startOfDiagonal = getStartOfForwardSlashDiagonalFromLastDroppedColumn();
+        return getForwardSlashTokensFrom(startOfDiagonal);
+    }
+
+    private List<String> getBackSlashDiagonalTokensFromLastDroppedColumn() {
+        Point startOfDiagonal = getStartOfBackSlashDiagonalFromLastDroppedColumn();
+        return getBackSlashTokensFrom(startOfDiagonal);
+    }
+
+    private Point getStartOfForwardSlashDiagonalFromLastDroppedColumn() {
+        int row = lastDroppedColumn.getTop();
+        int col = lastDroppedColumn.getId();
+        while(row > 1 && col > 1) {
+            row--;
+            col--;
+        }
+        return new Point(row, col);
+    }
+
+    private Point getStartOfBackSlashDiagonalFromLastDroppedColumn() {
+        int row = lastDroppedColumn.getTop();
+        int col = lastDroppedColumn.getId();
+        while(row < numberOfRows() && col > 1) {
+            row++;
+            col--;
+        }
+        return new Point(row, col);
+    }
+
+    private List<String> getForwardSlashTokensFrom(Point point) {
+        int row = point.x;
+        int col = point.y;
+
+        List<String> tokens = new ArrayList<>();
+        do {
+            tokens.add(getToken(col, row));
+            row++;
+            col++;
+        } while(row <= numberOfRows() && col <= numberOfColumns());
+
+        return tokens;
+    }
+
+    private List<String> getBackSlashTokensFrom(Point point) {
+        int row = point.x;
+        int col = point.y;
+
+        List<String> tokens = new ArrayList<>();
+        do {
+            tokens.add(getToken(col, row));
+            row--;
+            col++;
+        } while(row >= 1 && col <= numberOfColumns());
+
+        return tokens;
     }
 
     private Column getColumn(int column) {
@@ -117,6 +190,10 @@ public class Grid {
         for (int c = 1; c < numberOfColumns() + 1; c++)
             row.add(getToken(c, r));
         return row;
+    }
+
+    private Row getLastDroppedRow() {
+        return getRow(lastDroppedColumn.getTop());
     }
 
     private boolean noTokensDropped() {
@@ -155,6 +232,10 @@ public class Grid {
 
         public int getTop() {
             return tokens.size();
+        }
+
+        public int getId() {
+            return id;
         }
 
         private int getRowIndex(int row) {
