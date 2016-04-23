@@ -27,7 +27,7 @@ public class GridTest {
         int column = 1;
         addTokensToColumn(RED_TOKEN, column, 1);
 
-        assertThat(grid.getToken(column, 0)).isEqualTo(RED_TOKEN);
+        assertThat(grid.getToken(column, 1)).isEqualTo(RED_TOKEN);
     }
 
     @Test
@@ -35,9 +35,9 @@ public class GridTest {
         int column = MAX_COLUMNS;
         addTokensToColumn(RED_TOKEN, column, 3);
 
-        assertThat(grid.getToken(column, 0)).isEqualTo(RED_TOKEN);
         assertThat(grid.getToken(column, 1)).isEqualTo(RED_TOKEN);
         assertThat(grid.getToken(column, 2)).isEqualTo(RED_TOKEN);
+        assertThat(grid.getToken(column, 3)).isEqualTo(RED_TOKEN);
     }
 
     @Test(expected = InvalidColumnException.class)

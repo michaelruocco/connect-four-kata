@@ -68,7 +68,12 @@ public class Grid {
         }
 
         public String getToken(int row) {
-            return tokens.get(row);
+            int index = getRowIndex(row);
+            return tokens.get(index);
+        }
+
+        private int getRowIndex(int row) {
+            return row - 1;
         }
 
     }
