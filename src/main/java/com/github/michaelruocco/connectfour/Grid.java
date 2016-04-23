@@ -46,8 +46,26 @@ public class Grid {
     }
 
     public boolean hasWinner(String token) {
+        if (hasVerticalWinner(token))
+            return true;
+
+        if (hasHorizontalWinner(token))
+            return true;
+
+        return false;
+    }
+
+    private boolean hasVerticalWinner(String token) {
         for (Column column : columns)
             if (column.hasWinner(token))
+                return true;
+
+        return false;
+    }
+
+    private boolean hasHorizontalWinner(String token) {
+        for (Row row : getRows())
+            if (row.hasWinner(token))
                 return true;
 
         return false;
@@ -114,19 +132,9 @@ public class Grid {
             return tokens.get(index);
         }
 
-        public boolean hasWinner(String checkToken) {
-            int count = 0;
-            for (String token : tokens) {
-                if (token.equals(checkToken)) {
-                    count++;
-                    if (count >= 4) {
-                        return true;
-                    }
-                } else {
-                    count = 0;
-                }
-            }
-            return false;
+        public boolean hasWinner(String token) {
+            StreakChecker checker = new StreakChecker(tokens);
+            return checker.containsStreak(token);
         }
 
         private int getRowIndex(int row) {
@@ -143,6 +151,11 @@ public class Grid {
             tokens.add(token);
         }
 
+        public boolean hasWinner(String token) {
+            StreakChecker checker = new StreakChecker(tokens);
+            return checker.containsStreak(token);
+        }
+
         private String asString() {
             StringBuilder s = new StringBuilder();
             for (String token : tokens) {
@@ -150,6 +163,47 @@ public class Grid {
                 s.append(" ");
             }
             return s.toString().trim();
+        }
+
+    }
+
+    private static class StreakChecker {
+
+        private static final int STREAK_SIZE = 4;
+        private final List<String> tokens;
+        private int streak;
+
+
+        public StreakChecker(List<String> tokens) {
+            this.tokens = tokens;
+            resetStreak();
+        }
+
+        public boolean containsStreak(String tokenToFind) {
+            resetStreak();
+            for (String token : tokens) {
+                if (token.equals(tokenToFind)) {
+                    incrementStreak();
+                    if (hasStreak()) {
+                        return true;
+                    }
+                } else {
+                    resetStreak();
+                }
+            }
+            return false;
+        }
+
+        private boolean hasStreak() {
+            return streak >= STREAK_SIZE;
+        }
+
+        private void resetStreak() {
+            streak = 0;
+        }
+
+        private void incrementStreak() {
+            streak++;
         }
 
     }

@@ -107,8 +107,38 @@ public class GridTest {
         grid.reset();
 
         dropTokensInColumn(YELLOW_TOKEN, 6, 2);
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
+
         dropTokensInColumn(RED_TOKEN, 6, 4);
         assertThat(grid.hasWinner(RED_TOKEN)).isTrue();
+    }
+
+    @Test
+    public void returnsHorizontalWinner() {
+        dropTokensInColumn(RED_TOKEN, 1, 1);
+        dropTokensInColumn(RED_TOKEN, 2, 1);
+        dropTokensInColumn(RED_TOKEN, 3, 1);
+        dropTokensInColumn(RED_TOKEN, 4, 1);
+        assertThat(grid.hasWinner(RED_TOKEN)).isTrue();
+        grid.reset();
+
+        dropTokensInColumn(RED_TOKEN, 3, 1);
+        dropTokensInColumn(YELLOW_TOKEN, 4, 1);
+        dropTokensInColumn(RED_TOKEN, 5, 1);
+        dropTokensInColumn(YELLOW_TOKEN, 6, 1);
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
+
+        dropTokensInColumn(RED_TOKEN, 3, 1);
+        dropTokensInColumn(YELLOW_TOKEN, 4, 1);
+        dropTokensInColumn(RED_TOKEN, 5, 1);
+        dropTokensInColumn(YELLOW_TOKEN, 6, 1);
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
+
+        dropTokensInColumn(YELLOW_TOKEN, 3, 1);
+        dropTokensInColumn(YELLOW_TOKEN, 4, 1);
+        dropTokensInColumn(YELLOW_TOKEN, 5, 1);
+        dropTokensInColumn(YELLOW_TOKEN, 6, 1);
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
     }
 
     private void dropTokensInColumn(String token, int column, int numberOfTokens) {
