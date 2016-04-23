@@ -12,6 +12,7 @@ public class Grid {
     private static final String NEW_LINE = System.lineSeparator();
 
     private final Column[] columns;
+    private Column lastDroppedColumn;
 
     public Grid() {
         columns = new Column[NUMBER_OF_COLUMNS];
@@ -27,7 +28,8 @@ public class Grid {
     }
 
     public void dropToken(int column, String token) {
-        getColumn(column).placeToken(token);
+        this.lastDroppedColumn = getColumn(column);
+        lastDroppedColumn.placeToken(token);
     }
 
     public String getToken(int column, int row) {
@@ -55,27 +57,32 @@ public class Grid {
         return false;
     }
 
-    private boolean hasVerticalWinner(String token) {
-        for (Column column : columns)
-            if (column.hasWinner(token))
-                return true;
-
-        return false;
-    }
-
-    private boolean hasHorizontalWinner(String token) {
-        for (Row row : getRows())
-            if (row.hasWinner(token))
-                return true;
-
-        return false;
-    }
-
     public void reset() {
         for (int c = 0; c < columns.length; c ++) {
             int id = c + 1;
             columns[c] = new Column(id, NUMBER_OF_ROWS);
         }
+    }
+
+    private boolean hasVerticalWinner(String token) {
+        if (noTokensDropped())
+            return false;
+
+        if (lastDroppedColumn.hasWinner(token))
+            return true;
+
+        return false;
+    }
+
+    private boolean hasHorizontalWinner(String token) {
+        if (noTokensDropped())
+            return false;
+
+        Row row = getRow(lastDroppedColumn.getTop());
+        if (row.hasWinner(token))
+            return true;
+
+        return false;
     }
 
     private Column getColumn(int column) {
@@ -98,13 +105,21 @@ public class Grid {
     private List<Row> getRows() {
         List<Row> rows = new ArrayList<>();
         for (int r = numberOfRows(); r >= 1; r--) {
-            Row row = new Row();
-            for (int c = 1; c < numberOfColumns() + 1; c++) {
-                row.add(getToken(c, r));
-            }
+            Row row = getRow(r);
             rows.add(row);
         }
         return rows;
+    }
+
+    private Row getRow(int r) {
+        Row row = new Row();
+        for (int c = 1; c < numberOfColumns() + 1; c++)
+            row.add(getToken(c, r));
+        return row;
+    }
+
+    private boolean noTokensDropped() {
+        return lastDroppedColumn == null;
     }
 
     private static class Column {
@@ -135,6 +150,10 @@ public class Grid {
         public boolean hasWinner(String token) {
             StreakChecker checker = new StreakChecker(tokens);
             return checker.containsStreak(token);
+        }
+
+        public int getTop() {
+            return tokens.size();
         }
 
         private int getRowIndex(int row) {
@@ -172,7 +191,6 @@ public class Grid {
         private static final int STREAK_SIZE = 4;
         private final List<String> tokens;
         private int streak;
-
 
         public StreakChecker(List<String> tokens) {
             this.tokens = tokens;
