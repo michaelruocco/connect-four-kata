@@ -8,7 +8,10 @@ public class GridTest {
 
     private static final int MAX_COLUMNS = 7;
     private static final int MAX_ROWS = 6;
+    private static final String EMPTY_TOKEN = "-";
     private static final String RED_TOKEN = "R";
+    private static final String YELLOW_TOKEN = "Y";
+    private static final String NEW_LINE = System.lineSeparator();
 
     private Grid grid = new Grid();
 
@@ -60,6 +63,36 @@ public class GridTest {
     public void throwsErrorWhenTokenIsAddedToAFullColumn() {
         int column = 1;
         addTokensToColumn(RED_TOKEN, column, MAX_ROWS + 1);
+    }
+
+    @Test
+    public void returnsEmptyTokenIfSlotIsEmpty() {
+        assertThat(grid.getToken(1, 1)).isEqualTo(EMPTY_TOKEN);
+    }
+
+    @Test
+    public void shouldReturnGridStateAsString() {
+        addTokensToColumn(RED_TOKEN, 2, 5);
+        addTokensToColumn(YELLOW_TOKEN, 3, 4);
+        addTokensToColumn(RED_TOKEN, 5, 2);
+        addTokensToColumn(YELLOW_TOKEN, 5, 2);
+
+        StringBuilder expected = new StringBuilder();
+        expected.append("- - - - - - -");
+        expected.append(NEW_LINE);
+        expected.append("- R - - - - -");
+        expected.append(NEW_LINE);
+        expected.append("- R Y - Y - -");
+        expected.append(NEW_LINE);
+        expected.append("- R Y - Y - -");
+        expected.append(NEW_LINE);
+        expected.append("- R Y - R - -");
+        expected.append(NEW_LINE);
+        expected.append("- R Y - R - -");
+        expected.append(NEW_LINE);
+        expected.append(NEW_LINE);
+
+        assertThat(grid.asString()).isEqualTo(expected.toString());
     }
 
     private void addTokensToColumn(String token, int column, int numberOfTokens) {
