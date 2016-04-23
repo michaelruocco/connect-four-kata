@@ -1,5 +1,6 @@
 package com.github.michaelruocco.connectfour;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class ConnectFour {
@@ -7,15 +8,33 @@ public class ConnectFour {
     private static final Player RED_PLAYER = new Player("Red", "R");
     private static final Player YELLOW_PLAYER = new Player("Yellow", "Y");
 
-    private final Scanner scanner = new Scanner(System.in);
     private final Grid grid = new Grid();
+    private final Scanner scanner;
+    private final PrintStream printStream;
 
     private Player currentPlayer = RED_PLAYER;
+
+    public ConnectFour() {
+        this(new Scanner(System.in), System.out);
+    }
+
+    public ConnectFour(Scanner scanner, PrintStream printStream) {
+        this.scanner = scanner;
+        this.printStream = printStream;
+    }
 
     public void play() {
         while(!currentPlayerHasWon()) {
             playRound();
         }
+    }
+
+    public boolean currentPlayerHasWon() {
+        return grid.hasWinner(currentPlayer.getToken());
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     private void playRound() {
@@ -37,21 +56,17 @@ public class ConnectFour {
         return dropToken(column);
     }
 
-    private boolean currentPlayerHasWon() {
-        return grid.hasWinner(currentPlayer.getToken());
-    }
-
     private void printCurrentPlayerWins() {
         printGrid();
         String name = currentPlayer.getName();
-        System.out.println();
-        System.out.println("*** " + name + " player wins! ***");
+        printStream.println();
+        printStream.println("*** " + name + " player wins! ***");
     }
 
     private void printGrid() {
-        System.out.println();
-        System.out.println("Current grid state is:");
-        System.out.println(grid.asString());
+        printStream.println();
+        printStream.println("Current grid state is:");
+        printStream.println(grid.asString());
     }
 
     private void switchCurrentPlayer() {
@@ -63,7 +78,7 @@ public class ConnectFour {
 
     private void printPlayerPrompt() {
         String name = currentPlayer.getName();
-        System.out.print(name + " player input column to drop token ");
+        printStream.print(name + " player input column to drop token ");
     }
 
     private String getColumnInput() {
@@ -76,12 +91,12 @@ public class ConnectFour {
             grid.dropToken(column, token);
             return true;
         } catch (ConnectFourException e) {
-            System.out.println("Error: " + e.getMessage());
+            printStream.println("Error: " + e.getMessage());
             return false;
         }
     }
 
-    private static class Player {
+    public static class Player {
 
         private final String name;
         private final String token;
