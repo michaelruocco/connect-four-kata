@@ -58,6 +58,7 @@ public class Grid {
     }
 
     public void reset() {
+        lastDroppedColumn = null;
         for (int c = 0; c < columns.length; c ++) {
             int id = c + 1;
             columns[c] = new Column(id, NUMBER_OF_ROWS);

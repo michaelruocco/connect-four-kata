@@ -141,6 +141,16 @@ public class GridTest {
         assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
     }
 
+    @Test
+    public void resetShouldClearWinners() {
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
+        dropTokensInColumn(YELLOW_TOKEN, 1, 4);
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
+
+        grid.reset();
+        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
+    }
+
     private void dropTokensInColumn(String token, int column, int numberOfTokens) {
         for (int t = 0; t < numberOfTokens; t++) {
             grid.dropToken(column, token);
