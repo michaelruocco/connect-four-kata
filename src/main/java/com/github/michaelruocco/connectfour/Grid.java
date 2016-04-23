@@ -1,5 +1,7 @@
 package com.github.michaelruocco.connectfour;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +30,14 @@ public class Grid {
         return columns.length;
     }
 
-    public void dropToken(int column, String token) {
-        this.lastDroppedColumn = getColumn(column);
-        lastDroppedColumn.placeToken(token);
+    public void dropToken(String columnInput, String token) {
+        try {
+            int column = Integer.parseInt(columnInput);
+            this.lastDroppedColumn = getColumn(column);
+            lastDroppedColumn.placeToken(token);
+        } catch (NumberFormatException e) {
+            throw new InvalidColumnException("invalid column " + columnInput + " column must be integer value");
+        }
     }
 
     public String getToken(int column, int row) {
@@ -44,7 +51,7 @@ public class Grid {
             s.append(row.asString());
             s.append(NEW_LINE);
         }
-        return s.toString();
+        return StringUtils.chomp(s.toString());
     }
 
     public boolean hasWinner(String token) {

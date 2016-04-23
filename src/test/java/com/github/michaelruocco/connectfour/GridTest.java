@@ -45,12 +45,13 @@ public class GridTest {
 
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnIndexLessThanOne() {
-        grid.dropToken(0, RED_TOKEN);
+        grid.dropToken("0", RED_TOKEN);
     }
 
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnIndexGreaterThanMaxColumns() {
-        grid.dropToken(MAX_COLUMNS + 1, RED_TOKEN);
+        String column = Integer.toString(MAX_COLUMNS + 1);
+        grid.dropToken(column, RED_TOKEN);
     }
 
     @Test
@@ -89,7 +90,6 @@ public class GridTest {
         expected.append("- R Y - R - -");
         expected.append(NEW_LINE);
         expected.append("- R Y - R - -");
-        expected.append(NEW_LINE);
 
         assertThat(grid.asString()).isEqualTo(expected.toString());
     }
@@ -151,7 +151,7 @@ public class GridTest {
     }
 
     @Test
-    public void shouldReturnForwardSlashDiagonalWinner() {
+    public void returnsForwardSlashDiagonalWinner() {
         dropTokensInColumn(YELLOW_TOKEN, 3, 1);
         dropTokensInColumn(YELLOW_TOKEN, 4, 2);
         dropTokensInColumn(YELLOW_TOKEN, 5, 3);
@@ -164,7 +164,7 @@ public class GridTest {
     }
 
     @Test
-    public void shouldReturnBackSlashDiagonalWinner() {
+    public void returnsBackSlashDiagonalWinner() {
         dropTokensInColumn(RED_TOKEN, 2, 2);
         dropTokensInColumn(YELLOW_TOKEN, 2, 2);
         dropTokensInColumn(YELLOW_TOKEN, 3, 3);
@@ -177,9 +177,14 @@ public class GridTest {
         grid.reset();
     }
 
+    @Test(expected = InvalidColumnException.class)
+    public void throwsErrorIfColumnInputIsNotInteger() {
+        grid.dropToken("invalid", RED_TOKEN);
+    }
+
     private void dropTokensInColumn(String token, int column, int numberOfTokens) {
         for (int t = 0; t < numberOfTokens; t++) {
-            grid.dropToken(column, token);
+            grid.dropToken(Integer.toString(column), token);
         }
     }
 
