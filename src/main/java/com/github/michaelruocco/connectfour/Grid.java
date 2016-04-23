@@ -12,7 +12,8 @@ public class Grid {
     public Grid() {
         columns = new Column[NUMBER_OF_COLUMNS];
         for (int c = 0; c < columns.length; c ++) {
-            columns[c] = new Column();
+            int id = c + 1;
+            columns[c] = new Column(id, NUMBER_OF_ROWS);
         }
     }
 
@@ -52,8 +53,17 @@ public class Grid {
     private static class Column {
 
         private final Stack<String> tokens = new Stack<>();
+        private final int id;
+        private final int numberOfRows;
+
+        public Column(int id, int numberOfRows) {
+            this.id = id;
+            this.numberOfRows = numberOfRows;
+        }
 
         public void placeToken(String token) {
+            if (tokens.size() >= numberOfRows)
+                throw new ColumnFullException("column " + id + " is already full");
             tokens.add(token);
         }
 

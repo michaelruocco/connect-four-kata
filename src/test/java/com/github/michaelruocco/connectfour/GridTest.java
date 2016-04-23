@@ -8,6 +8,7 @@ public class GridTest {
 
     private static final int MAX_COLUMNS = 7;
     private static final int MAX_ROWS = 6;
+    private static final String RED_TOKEN = "R";
 
     private Grid grid = new Grid();
 
@@ -24,34 +25,47 @@ public class GridTest {
     @Test
     public void canPlaceTokenOnGrid() {
         int column = 1;
-        String token = "R";
-        grid.placeToken(column, token);
+        addTokensToColumn(RED_TOKEN, column, 1);
 
-        int row = 0;
-        assertThat(grid.getToken(column, row)).isEqualTo("R");
+        assertThat(grid.getToken(column, 0)).isEqualTo(RED_TOKEN);
     }
 
     @Test
     public void canStackTokens() {
         int column = MAX_COLUMNS;
-        String token = "R";
-        grid.placeToken(column, token);
-        grid.placeToken(column, token);
-        grid.placeToken(column, token);
+        addTokensToColumn(RED_TOKEN, column, 3);
 
-        assertThat(grid.getToken(column, 0)).isEqualTo(token);
-        assertThat(grid.getToken(column, 1)).isEqualTo(token);
-        assertThat(grid.getToken(column, 2)).isEqualTo(token);
+        assertThat(grid.getToken(column, 0)).isEqualTo(RED_TOKEN);
+        assertThat(grid.getToken(column, 1)).isEqualTo(RED_TOKEN);
+        assertThat(grid.getToken(column, 2)).isEqualTo(RED_TOKEN);
     }
 
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnIndexLessThanOne() {
-        grid.placeToken(0, "R");
+        grid.placeToken(0, RED_TOKEN);
     }
 
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnIndexGreaterThanMaxColumns() {
-        grid.placeToken(MAX_COLUMNS + 1, "R");
+        grid.placeToken(MAX_COLUMNS + 1, RED_TOKEN);
+    }
+
+    @Test
+    public void canFillColumn() {
+        int column = 1;
+        addTokensToColumn(RED_TOKEN, column, MAX_ROWS);
+    }
+
+    @Test(expected = ColumnFullException.class)
+    public void throwsErrorWhenTokenIsAddedToAFullColumn() {
+        int column = 1;
+        addTokensToColumn(RED_TOKEN, column, MAX_ROWS + 1);
+    }
+
+    private void addTokensToColumn(String token, int column, int numberOfTokens) {
+        for (int t = 0; t < numberOfTokens; t++) {
+            grid.placeToken(column, token);
+        }
     }
 
 }
