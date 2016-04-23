@@ -71,7 +71,7 @@ public class GridTest {
     }
 
     @Test
-    public void shouldReturnGridStateAsString() {
+    public void returnsGridStateAsString() {
         dropTokensInColumn(RED_TOKEN, 2, 5);
         dropTokensInColumn(YELLOW_TOKEN, 3, 4);
         dropTokensInColumn(RED_TOKEN, 5, 2);
@@ -96,14 +96,19 @@ public class GridTest {
     }
 
     @Test
-    public void shouldReturnVerticalWinner() {
+    public void returnsNoWinnerIfGridIsEmpty() {
+        assertThat(grid.hasWinner(RED_TOKEN)).isFalse();
+    }
+
+    @Test
+    public void returnsVerticalWinner() {
         dropTokensInColumn(RED_TOKEN, 1, 4);
-        assertThat(grid.hasWinner(RED_TOKEN));
+        assertThat(grid.hasWinner(RED_TOKEN)).isTrue();
         grid.reset();
 
         dropTokensInColumn(YELLOW_TOKEN, 6, 2);
         dropTokensInColumn(RED_TOKEN, 6, 4);
-        assertThat(grid.hasWinner(RED_TOKEN));
+        assertThat(grid.hasWinner(RED_TOKEN)).isTrue();
     }
 
     private void dropTokensInColumn(String token, int column, int numberOfTokens) {

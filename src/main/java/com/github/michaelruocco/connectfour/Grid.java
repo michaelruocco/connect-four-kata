@@ -117,9 +117,9 @@ public class Grid {
         public boolean hasWinner(String checkToken) {
             int count = 0;
             for (String token : tokens) {
-                if (!token.equals(checkToken)) {
+                if (token.equals(checkToken)) {
                     count++;
-                    if (count > 4) {
+                    if (count >= 4) {
                         return true;
                     }
                 } else {
