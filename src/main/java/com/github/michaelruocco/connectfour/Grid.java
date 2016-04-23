@@ -21,7 +21,7 @@ public class Grid {
     }
 
     public int numberOfColumns() {
-        return NUMBER_OF_COLUMNS;
+        return columns.length;
     }
 
     public void placeToken(int column, String token) {
@@ -33,7 +33,20 @@ public class Grid {
     }
 
     private Column getColumn(int column) {
-        return columns[column];
+        int index = getColumnIndex(column);
+        return columns[index];
+    }
+
+    private int getColumnIndex(int column) {
+        int index = column - 1;
+
+        if (index < 0)
+            throw new InvalidColumnException("column must be between 1 and " + numberOfColumns());
+
+        if (index >= numberOfColumns())
+            throw new InvalidColumnException("column must be between 1 and " + numberOfColumns());
+
+        return index;
     }
 
     private static class Column {
