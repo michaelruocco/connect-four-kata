@@ -13,7 +13,7 @@ public class GridTest {
     private static final String YELLOW_TOKEN = "Y";
     private static final String NEW_LINE = System.lineSeparator();
 
-    private Grid grid = new Grid();
+    private Grid grid = new Grid(MAX_ROWS, MAX_COLUMNS);
 
     @Test
     public void gridHasMaxRows() {
@@ -180,6 +180,21 @@ public class GridTest {
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnInputIsNotInteger() {
         grid.dropToken("invalid", RED_TOKEN);
+    }
+
+    @Test
+    public void returnsTopOfColumn() {
+        int columnIndex = 1;
+        assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(0);
+
+        grid.dropToken(Integer.toString(columnIndex), "R");
+        assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(1);
+
+        grid.dropToken(Integer.toString(columnIndex), "R");
+        assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(2);
+
+        grid.dropToken(Integer.toString(columnIndex), "R");
+        assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(3);
     }
 
     private void dropTokensInColumn(String token, int column, int numberOfTokens) {

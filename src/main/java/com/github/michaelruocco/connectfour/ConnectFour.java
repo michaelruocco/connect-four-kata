@@ -1,32 +1,28 @@
 package com.github.michaelruocco.connectfour;
 
+import java.awt.*;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+import static java.awt.Color.*;
+
 public class ConnectFour {
 
-    private static final Player RED_PLAYER = new Player("Red", "R");
-    private static final Player YELLOW_PLAYER = new Player("Yellow", "Y");
+    private static final int DEFAULT_NUMBER_OF_COLUMNS = 7;
+    private static final int DEFAULT_NUMBER_OF_ROWS = 6;
+    private static final Player RED_PLAYER = new Player("Red", "R", RED);
+    private static final Player YELLOW_PLAYER = new Player("Yellow", "Y", YELLOW);
 
-    private final Grid grid = new Grid();
-    private final Scanner scanner;
-    private final PrintStream printStream;
+    private final Grid grid;
 
     private Player currentPlayer = RED_PLAYER;
 
     public ConnectFour() {
-        this(new Scanner(System.in), System.out);
+        this(DEFAULT_NUMBER_OF_ROWS, DEFAULT_NUMBER_OF_COLUMNS);
     }
 
-    public ConnectFour(Scanner scanner, PrintStream printStream) {
-        this.scanner = scanner;
-        this.printStream = printStream;
-    }
-
-    public void play() {
-        while(!currentPlayerHasWon()) {
-            playRound();
-        }
+    public ConnectFour(int numberOfRows, int numberOfColumns) {
+        this.grid = new Grid(numberOfRows, numberOfColumns);
     }
 
     public boolean currentPlayerHasWon() {
@@ -37,73 +33,36 @@ public class ConnectFour {
         return currentPlayer;
     }
 
-    private void playRound() {
-        if (!takeTurn())
-            return;
-
-        if (currentPlayerHasWon()) {
-            printCurrentPlayerWins();
-            return;
-        }
-
-        switchCurrentPlayer();
+    public String getGridAsString() {
+        return grid.asString();
     }
 
-    private boolean takeTurn() {
-        printGrid();
-        printPlayerPrompt();
-        String column = getColumnInput();
-        return dropToken(column);
-    }
-
-    private void printCurrentPlayerWins() {
-        printGrid();
-        String name = currentPlayer.getName();
-        printStream.println();
-        printStream.println("*** " + name + " player wins! ***");
-    }
-
-    private void printGrid() {
-        printStream.println();
-        printStream.println("Current grid state is:");
-        printStream.println(grid.asString());
-    }
-
-    private void switchCurrentPlayer() {
+    public void switchCurrentPlayer() {
         if (currentPlayer.equals(RED_PLAYER))
             currentPlayer = YELLOW_PLAYER;
         else
             currentPlayer = RED_PLAYER;
     }
 
-    private void printPlayerPrompt() {
-        String name = currentPlayer.getName();
-        printStream.print(name + " player input column to drop token ");
+    public void dropToken(String column) {
+        String token = currentPlayer.getToken();
+        grid.dropToken(column, token);
     }
 
-    private String getColumnInput() {
-        return scanner.next();
-    }
-
-    private boolean dropToken(String column) {
-        try {
-            String token = currentPlayer.getToken();
-            grid.dropToken(column, token);
-            return true;
-        } catch (ConnectFourException e) {
-            printStream.println("Error: " + e.getMessage());
-            return false;
-        }
+    public int getTopOfColumn(int index) {
+        return grid.getTopOfColumn(index);
     }
 
     public static class Player {
 
         private final String name;
         private final String token;
+        private final Color color;
 
-        public Player(String name, String token) {
+        public Player(String name, String token, Color color) {
             this.name = name;
             this.token = token;
+            this.color = color;
         }
 
         public String getName() {
@@ -113,6 +72,8 @@ public class ConnectFour {
         public String getToken() {
             return token;
         }
+
+        public Color getColor() { return color; }
 
     }
 }

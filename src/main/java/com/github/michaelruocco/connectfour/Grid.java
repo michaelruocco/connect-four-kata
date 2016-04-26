@@ -9,21 +9,21 @@ import java.util.Stack;
 
 public class Grid {
 
-    private static final int NUMBER_OF_ROWS = 6;
-    private static final int NUMBER_OF_COLUMNS = 7;
     private static final String EMPTY_TOKEN = "-";
     private static final String NEW_LINE = System.lineSeparator();
 
+    private final int numberOfRows;
     private final Column[] columns;
     private Column lastDroppedColumn;
 
-    public Grid() {
-        columns = new Column[NUMBER_OF_COLUMNS];
+    public Grid(int numberOfRows, int numberOfColumns) {
+        this.numberOfRows = numberOfRows;
+        columns = new Column[numberOfColumns];
         reset();
     }
 
     public int numberOfRows() {
-        return NUMBER_OF_ROWS;
+        return numberOfRows;
     }
 
     public int numberOfColumns() {
@@ -38,6 +38,11 @@ public class Grid {
         } catch (NumberFormatException e) {
             throw new InvalidColumnException("invalid column " + columnInput + " column must be integer value");
         }
+    }
+
+    public int getTopOfColumn(int index) {
+        Column column = getColumn(index);
+        return column.getTop();
     }
 
     public String getToken(int column, int row) {
@@ -77,7 +82,7 @@ public class Grid {
         lastDroppedColumn = null;
         for (int c = 0; c < columns.length; c ++) {
             int id = c + 1;
-            columns[c] = new Column(id, NUMBER_OF_ROWS);
+            columns[c] = new Column(id, numberOfRows);
         }
     }
 
