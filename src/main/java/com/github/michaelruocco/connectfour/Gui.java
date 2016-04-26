@@ -33,10 +33,15 @@ public class Gui {
             columns.add(column);
         }
 
+        CurrentPlayerPanel currentPlayerPanel = new CurrentPlayerPanel(connectFour);
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1, NUMBER_OF_COLUMNS));
         for(Column column : columns) {
-            buttonPanel.add(column.getButton());
+            JButton button = column.getButton();
+            buttonPanel.add(button);
+            ActionListener listener = new DropTokenActionListener(connectFour, column, currentPlayerPanel);
+            button.addActionListener(listener);
         }
 
         JPanel gridPanel = new JPanel();
@@ -51,6 +56,7 @@ public class Gui {
         container.setLayout(new BorderLayout());
         container.add(buttonPanel, BorderLayout.PAGE_START);
         container.add(gridPanel, BorderLayout.CENTER);
+        container.add(currentPlayerPanel, BorderLayout.PAGE_END);
 
         JFrame frame = new JFrame("Connect Four");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,7 +103,34 @@ public class Gui {
 
     }
 
-    public static class Column implements ActionListener {
+    public static class CurrentPlayerPanel extends JPanel {
+
+        private final ConnectFour connectFour;
+        private final JLabel playerLabel;
+
+        public CurrentPlayerPanel(ConnectFour connectFour) {
+            this.connectFour = connectFour;
+            this.playerLabel = new JLabel();
+            setUp();
+            displayCurrentPlayer();
+        }
+
+        public void displayCurrentPlayer() {
+            Player player = connectFour.getCurrentPlayer();
+            playerLabel.setText(player.getName());
+            playerLabel.setForeground(player.getColor());
+        }
+
+        private void setUp() {
+            JLabel label = new JLabel();
+            label.setText("Current Player: ");
+            add(label);
+            add(playerLabel);
+        }
+
+    }
+
+    public static class Column {
 
         private final List<Square> squares = new ArrayList<>();
         private final int index;
@@ -107,7 +140,6 @@ public class Gui {
         public Column(ConnectFour connectFour, int index) {
             this.connectFour = connectFour;
             this.button = new JButton(Integer.toString(index));
-            this.button.addActionListener(this);
             this.index = index;
         }
 
@@ -119,22 +151,46 @@ public class Gui {
             squares.add(square);
         }
 
-        public Square getSquare(int rowIndex) {
+        public int getIndex() {
+            return index;
+        }
+
+        private Square getTopSquare() {
+            int topOfColumn = connectFour.getTopOfColumn(index);
+            return getSquare(topOfColumn);
+        }
+
+        private Square getSquare(int rowIndex) {
             return squares.get(rowIndex);
+        }
+
+    }
+
+    private static class DropTokenActionListener implements ActionListener {
+
+        private final ConnectFour connectFour;
+        private final Column column;
+        private final CurrentPlayerPanel currentPlayerPanel;
+
+        public DropTokenActionListener(ConnectFour connectFour, Column column, CurrentPlayerPanel currentPlayerPanel) {
+            this.connectFour = connectFour;
+            this.column = column;
+            this.currentPlayerPanel = currentPlayerPanel;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Player player = connectFour.getCurrentPlayer();
-            int topOfColumn = connectFour.getTopOfColumn(index);
-            connectFour.dropToken(Integer.toString(index));
-            if (connectFour.currentPlayerHasWon()) {
+            Square square = column.getTopSquare();
 
-            }
-            Square square = squares.get(topOfColumn);
+            Player player = connectFour.getCurrentPlayer();
             square.setCircleColor(player.getColor());
             square.repaint();
+
+            connectFour.dropToken(Integer.toString(column.getIndex()));
             connectFour.switchCurrentPlayer();
+
+            currentPlayerPanel.displayCurrentPlayer();
+            currentPlayerPanel.repaint();
         }
 
     }
