@@ -123,4 +123,28 @@ public class ConnectFourTest {
         assertThat(connectFour.getGridAsString()).isEqualTo(expected);
     }
 
+    @Test
+    public void shouldReturnWhenColumnIsFull() {
+        int columnIndex = 2;
+        assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
+
+        connectFour.dropToken(Integer.toString(columnIndex));
+        assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
+
+        connectFour.dropToken(Integer.toString(columnIndex));
+        assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
+
+        connectFour.dropToken(Integer.toString(columnIndex));
+        assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
+
+        connectFour.dropToken(Integer.toString(columnIndex));
+        assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
+
+        connectFour.dropToken(Integer.toString(columnIndex));
+        assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
+
+        connectFour.dropToken(Integer.toString(columnIndex));
+        assertThat(connectFour.isColumnFull(columnIndex)).isTrue();
+    }
+
 }

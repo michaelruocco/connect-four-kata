@@ -45,6 +45,11 @@ public class Grid {
         return column.getTop();
     }
 
+    public boolean isColumnFull(int index) {
+        Column column = getColumn(index);
+        return column.isFull();
+    }
+
     public String getToken(int column, int row) {
         return getColumn(column).getToken(row);
     }
@@ -224,9 +229,13 @@ public class Grid {
         }
 
         public void placeToken(String token) {
-            if (tokens.size() >= numberOfRows)
+            if (isFull())
                 throw new ColumnFullException("column " + id + " is already full");
             tokens.add(token);
+        }
+
+        public boolean isFull() {
+            return tokens.size() >= numberOfRows;
         }
 
         public String getToken(int row) {

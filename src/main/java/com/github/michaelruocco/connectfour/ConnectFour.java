@@ -65,4 +65,8 @@ public class ConnectFour {
         grid.reset();
     }
 
+    public boolean isColumnFull(int index) {
+        return grid.isColumnFull(index);
+    }
+
 }

@@ -175,6 +175,10 @@ public class GuiConnectFour extends JFrame {
             return button;
         }
 
+        public void disableButton() {
+            button.setEnabled(false);
+        }
+
         public void add(Square square) {
             squares.add(square);
         }
@@ -186,6 +190,7 @@ public class GuiConnectFour extends JFrame {
         public void reset() {
             for (Square square : squares)
                 square.reset();
+            button.setEnabled(true);
         }
 
         private Square getTopSquare() {
@@ -222,6 +227,8 @@ public class GuiConnectFour extends JFrame {
             square.repaint();
 
             connectFour.dropToken(Integer.toString(column.getIndex()));
+            if (connectFour.isColumnFull(column.getIndex()))
+                column.disableButton();
 
             if (connectFour.currentPlayerHasWon()) {
                 guiConnectFour.showPlayerWins(player);
