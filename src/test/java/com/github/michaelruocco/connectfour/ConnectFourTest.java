@@ -13,6 +13,16 @@ public class ConnectFourTest {
     private final ConnectFour connectFour = new ConnectFour();
 
     @Test
+    public void returnsNumberOfRows() {
+        assertThat(connectFour.numberOfRows()).isEqualTo(6);
+    }
+
+    @Test
+    public void returnsNumberOfColumns() {
+        assertThat(connectFour.numberOfColumns()).isEqualTo(7);
+    }
+
+    @Test
     public void redPlayerGoesFirst() {
         assertThat(connectFour.getCurrentPlayer().getName()).isEqualTo("Red");
     }
@@ -86,6 +96,31 @@ public class ConnectFourTest {
 
         connectFour.dropToken(Integer.toString(columnIndex));
         Assertions.assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(3);
+    }
+
+    @Test
+    public void shouldResetGame() {
+        connectFour.dropToken("2");
+        connectFour.dropToken("2");
+        connectFour.dropToken("2");
+
+        String expected = "- - - - - - -" + NEW_LINE +
+                "- - - - - - -" + NEW_LINE +
+                "- - - - - - -" + NEW_LINE +
+                "- R - - - - -" + NEW_LINE +
+                "- R - - - - -" + NEW_LINE +
+                "- R - - - - -";
+        assertThat(connectFour.getGridAsString()).isEqualTo(expected);
+
+        connectFour.reset();
+
+        expected = "- - - - - - -" + NEW_LINE +
+                "- - - - - - -" + NEW_LINE +
+                "- - - - - - -" + NEW_LINE +
+                "- - - - - - -" + NEW_LINE +
+                "- - - - - - -" + NEW_LINE +
+                "- - - - - - -";
+        assertThat(connectFour.getGridAsString()).isEqualTo(expected);
     }
 
 }

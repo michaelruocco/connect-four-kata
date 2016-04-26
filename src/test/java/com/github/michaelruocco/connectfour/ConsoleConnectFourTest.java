@@ -19,7 +19,8 @@ public class ConsoleConnectFourTest {
                 "3\n"; //red
 
         Scanner scanner = new Scanner(input);
-        ConsoleConnectFour console = new ConsoleConnectFour(scanner, System.out);
+        ConnectFour connectFour = new ConnectFour();
+        ConsoleConnectFour console = new ConsoleConnectFour(connectFour, scanner, System.out);
         console.play();
 
         assertThat(console.currentPlayerHasWon()).isTrue();

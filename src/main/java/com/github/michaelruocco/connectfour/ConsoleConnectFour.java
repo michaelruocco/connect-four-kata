@@ -3,20 +3,14 @@ package com.github.michaelruocco.connectfour;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import static com.github.michaelruocco.connectfour.ConnectFour.*;
-
 public class ConsoleConnectFour {
 
-    public static void main(String[] args) {
-        ConsoleConnectFour console = new ConsoleConnectFour(new Scanner(System.in), System.out);
-        console.play();
-    }
-
-    private final ConnectFour connectFour = new ConnectFour();
+    private final ConnectFour connectFour;
     private final Scanner scanner;
     private final PrintStream printStream;
 
-    public ConsoleConnectFour(Scanner scanner, PrintStream printStream) {
+    public ConsoleConnectFour(ConnectFour connectFour, Scanner scanner, PrintStream printStream) {
+        this.connectFour = connectFour;
         this.scanner = scanner;
         this.printStream = printStream;
     }
