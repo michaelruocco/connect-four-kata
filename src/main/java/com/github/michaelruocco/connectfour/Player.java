@@ -1,7 +1,5 @@
 package com.github.michaelruocco.connectfour;
 
-import com.sun.org.apache.regexp.internal.CharacterArrayCharacterIterator;
-
 import java.awt.*;
 
 public class Player {

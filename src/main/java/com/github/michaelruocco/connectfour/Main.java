@@ -8,15 +8,27 @@ public class Main {
 
     public static void main(String[] args) {
         ConnectFour connectFour = new ConnectFour();
-        if (args.length < 1 || args[0].equals("console")) {
-            ConsoleConnectFour console = new ConsoleConnectFour(connectFour, new Scanner(System.in), System.out);
-            console.play();
+        if (shouldPlayGuiVersion(args)) {
+            playGuiVersion(connectFour);
         } else {
-            invokeLater(() -> {
-                GuiConnectFour gui = new GuiConnectFour(connectFour);
-                gui.play();
-            });
+            playConsoleVersion(connectFour);
         }
+    }
+
+    private static boolean shouldPlayGuiVersion(String[] args) {
+        return args.length < 1 || args[0].equals("gui");
+    }
+
+    private static void playConsoleVersion(ConnectFour connectFour) {
+        ConsoleConnectFour console = new ConsoleConnectFour(connectFour, new Scanner(System.in), System.out);
+        console.play();
+    }
+
+    private static void playGuiVersion(ConnectFour connectFour) {
+        invokeLater(() -> {
+            GuiConnectFour gui = new GuiConnectFour(connectFour);
+            gui.play();
+        });
     }
 
 }
