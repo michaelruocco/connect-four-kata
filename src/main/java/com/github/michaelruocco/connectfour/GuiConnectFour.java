@@ -120,13 +120,16 @@ public class GuiConnectFour extends JFrame {
             g.setColor(circleColor);
             int x = getWidth() / 2;
             int y = getHeight() / 2;
-            int radius = getWidth() / 2;
-            if (getWidth() > getHeight()) {
-                radius = getHeight() / 2;
-            }
+            int radius = getRadius();
             x = x - (radius / 2);
             y = y - (radius / 2);
             g.fillOval(x, y, radius, radius);
+        }
+
+        private int getRadius() {
+            if (getWidth() > getHeight())
+                return getHeight() / 2;
+            return getWidth() / 2;
         }
 
     }
@@ -220,6 +223,20 @@ public class GuiConnectFour extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            takeTurn();
+            if (connectFour.currentPlayerHasWon()) {
+                guiConnectFour.showPlayerWins(connectFour.getCurrentPlayer());
+            } else {
+                switchPlayer();
+            }
+        }
+
+        private void takeTurn() {
+            dropToken();
+            disableColumnIfFull();
+        }
+
+        private void dropToken() {
             Square square = column.getTopSquare();
 
             Player player = connectFour.getCurrentPlayer();
@@ -227,16 +244,15 @@ public class GuiConnectFour extends JFrame {
             square.repaint();
 
             connectFour.dropToken(Integer.toString(column.getIndex()));
+        }
+
+        private void disableColumnIfFull() {
             if (connectFour.isColumnFull(column.getIndex()))
                 column.disableButton();
+        }
 
-            if (connectFour.currentPlayerHasWon()) {
-                guiConnectFour.showPlayerWins(player);
-                return;
-            }
-
+        private void switchPlayer() {
             connectFour.switchCurrentPlayer();
-
             currentPlayerPanel.displayCurrentPlayer();
             currentPlayerPanel.repaint();
         }
