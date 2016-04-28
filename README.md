@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/michaelruocco/connect-four-kata/badge.svg?branch=master)](https://coveralls.io/github/michaelruocco/connect-four-kata?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/571b82c6fcd19a00518565e8/badge.svg?style=flat)](https://www.versioneye.com/user/projects/571b82c6fcd19a00518565e8)
 
-This project is my attempt at the monopoly kata exercise that is outlined here:
+This project is my attempt at the connect four kata exercise that is outlined here:
 
 http://agilekatas.co.uk/katas/ConnectFour-Kata
 
