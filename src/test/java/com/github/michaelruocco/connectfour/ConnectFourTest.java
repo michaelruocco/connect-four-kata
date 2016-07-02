@@ -1,9 +1,6 @@
 package com.github.michaelruocco.connectfour;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
-
-import java.util.Scanner;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -86,16 +83,16 @@ public class ConnectFourTest {
     @Test
     public void returnsTopOfColumn() {
         int columnIndex = 1;
-        Assertions.assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(0);
+        assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(0);
 
         connectFour.dropToken(Integer.toString(columnIndex));
-        Assertions.assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(1);
+        assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(1);
 
         connectFour.dropToken(Integer.toString(columnIndex));
-        Assertions.assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(2);
+        assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(2);
 
         connectFour.dropToken(Integer.toString(columnIndex));
-        Assertions.assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(3);
+        assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(3);
     }
 
     @Test

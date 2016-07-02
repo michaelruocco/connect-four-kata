@@ -1,9 +1,5 @@
 package com.github.michaelruocco.connectfour;
 
-import java.awt.*;
-import java.io.PrintStream;
-import java.util.Scanner;
-
 import static java.awt.Color.*;
 
 public class ConnectFour {

@@ -77,10 +77,8 @@ public class Grid {
         if (hasForwardSlashDiagonalWinner(token))
             return true;
 
-        if (hasBackSlashDiagonalWinner(token))
-            return true;
+        return hasBackSlashDiagonalWinner(token);
 
-        return false;
     }
 
     public void reset() {
@@ -92,18 +90,14 @@ public class Grid {
     }
 
     private boolean hasVerticalWinner(String token) {
-        if (lastDroppedColumn.hasWinner(token))
-            return true;
+        return lastDroppedColumn.hasWinner(token);
 
-        return false;
     }
 
     private boolean hasHorizontalWinner(String token) {
         Row row = getLastDroppedRow();
-        if (row.hasWinner(token))
-            return true;
+        return row.hasWinner(token);
 
-        return false;
     }
 
     private boolean hasForwardSlashDiagonalWinner(String token) {

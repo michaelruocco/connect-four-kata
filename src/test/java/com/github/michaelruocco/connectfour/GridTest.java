@@ -3,6 +3,7 @@ package com.github.michaelruocco.connectfour;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
 
 public class GridTest {
 
@@ -64,6 +65,7 @@ public class GridTest {
     public void throwsErrorWhenTokenIsDroppedIntoAFullColumn() {
         int column = 1;
         dropTokensInColumn(RED_TOKEN, column, MAX_ROWS + 1);
+        fail("expected ColumnFullException to be thrown");
     }
 
     @Test
