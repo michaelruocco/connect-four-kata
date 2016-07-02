@@ -59,6 +59,7 @@ public class GridTest {
     public void canFillColumn() {
         int column = 1;
         dropTokensInColumn(RED_TOKEN, column, MAX_ROWS);
+        assertThat(grid.isColumnFull(column)).isTrue();
     }
 
     @Test(expected = ColumnFullException.class)
