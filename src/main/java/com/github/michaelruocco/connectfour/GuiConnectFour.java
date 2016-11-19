@@ -26,7 +26,7 @@ public class GuiConnectFour extends JFrame {
         int numberOfRows = connectFour.numberOfRows();
 
         columns = new ArrayList<>();
-        for (int c = 0; c <= numberOfColumns - 1; c++) {
+        for (int c = 1; c <= numberOfColumns; c++) {
             Column column = new Column(this, c);
             for (int r = 0; r < numberOfRows; r++) {
                 column.add(new Square());
@@ -108,7 +108,7 @@ public class GuiConnectFour extends JFrame {
     }
 
     private void dropToken(int columnIndex, Player player) {
-        Column column = columns.get(columnIndex);
+        Column column = columns.get(columnIndex - 1);
         Square square = column.getTopSquare();
         square.setPlayer(player);
 
