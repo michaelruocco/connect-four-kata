@@ -26,8 +26,8 @@ public class GuiConnectFour extends JFrame {
         int numberOfRows = connectFour.numberOfRows();
 
         columns = new ArrayList<>();
-        for (int c = 1; c <= numberOfColumns; c++) {
-            Column column = new Column(connectFour, c);
+        for (int c = 0; c <= numberOfColumns - 1; c++) {
+            Column column = new Column(this, c);
             for (int r = 0; r < numberOfRows; r++) {
                 column.add(new Square());
             }
@@ -41,8 +41,6 @@ public class GuiConnectFour extends JFrame {
         for (Column column : columns) {
             JButton button = column.getButton();
             buttonPanel.add(button);
-            ActionListener listener = new DropTokenActionListener(connectFour, this, column);
-            button.addActionListener(listener);
         }
 
         JPanel gridPanel = new JPanel();
@@ -89,6 +87,15 @@ public class GuiConnectFour extends JFrame {
         currentPlayerPanel.repaint();
     }
 
+    public void dropToken(int columnIndex) {
+        Player player = connectFour.getCurrentPlayer();
+        dropToken(columnIndex, player);
+    }
+
+    public int getTopOfColumn(int columnIndex) {
+        return connectFour.getTopOfColumn(columnIndex);
+    }
+
     private void reset() {
         for (Column column : columns)
             column.reset();
@@ -98,6 +105,16 @@ public class GuiConnectFour extends JFrame {
 
     private void close() {
         dispatchEvent(new WindowEvent(this, WINDOW_CLOSING));
+    }
+
+    private void dropToken(int columnIndex, Player player) {
+        Column column = columns.get(columnIndex);
+        Square square = column.getTopSquare();
+        square.setPlayer(player);
+
+        connectFour.dropToken(columnIndex);
+        if (connectFour.isColumnFull(columnIndex))
+            column.disableButton();
     }
 
     private static class Square extends JPanel {
@@ -183,11 +200,12 @@ public class GuiConnectFour extends JFrame {
         private final List<Square> squares = new ArrayList<>();
         private final int index;
         private final JButton button;
-        private final ConnectFour connectFour;
+        private final GuiConnectFour guiConnectFour;
 
-        public Column(ConnectFour connectFour, int index) {
-            this.connectFour = connectFour;
+        public Column(GuiConnectFour guiConnectFour, int index) {
+            this.guiConnectFour = guiConnectFour;
             this.button = new JButton(Integer.toString(index));
+            this.button.addActionListener(new DropTokenActionListener(guiConnectFour, index));
             this.index = index;
         }
 
@@ -214,7 +232,7 @@ public class GuiConnectFour extends JFrame {
         }
 
         private Square getTopSquare() {
-            int topOfColumn = connectFour.getTopOfColumn(index);
+            int topOfColumn = guiConnectFour.getTopOfColumn(index);
             return getSquare(topOfColumn);
         }
 
@@ -226,13 +244,11 @@ public class GuiConnectFour extends JFrame {
 
     private static class DropTokenActionListener implements ActionListener {
 
-        private final ConnectFour connectFour;
-        private final Column column;
         private final GuiConnectFour guiConnectFour;
+        private final int columnIndex;
 
-        public DropTokenActionListener(ConnectFour connectFour, GuiConnectFour guiConnectFour, Column column) {
-            this.connectFour = connectFour;
-            this.column = column;
+        public DropTokenActionListener(GuiConnectFour guiConnectFour, int columnIndex) {
+            this.columnIndex = columnIndex;
             this.guiConnectFour = guiConnectFour;
         }
 
@@ -247,22 +263,7 @@ public class GuiConnectFour extends JFrame {
         }
 
         private void takeTurn() {
-            dropToken();
-            disableColumnIfFull();
-        }
-
-        private void dropToken() {
-            Square square = column.getTopSquare();
-
-            Player player = connectFour.getCurrentPlayer();
-            square.setPlayer(player);
-
-            connectFour.dropToken(column.getIndex());
-        }
-
-        private void disableColumnIfFull() {
-            if (connectFour.isColumnFull(column.getIndex()))
-                column.disableButton();
+            guiConnectFour.dropToken(columnIndex);
         }
 
     }
