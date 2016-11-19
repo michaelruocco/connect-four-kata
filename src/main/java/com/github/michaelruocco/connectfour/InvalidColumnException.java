@@ -6,4 +6,8 @@ public class InvalidColumnException extends ConnectFourException {
         super(message);
     }
 
+    public InvalidColumnException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

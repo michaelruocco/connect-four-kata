@@ -48,7 +48,7 @@ public class ConnectFour {
             currentPlayer = RED_PLAYER;
     }
 
-    public void dropToken(String column) {
+    public void dropToken(int column) {
         String token = currentPlayer.getToken();
         grid.dropToken(column, token);
     }

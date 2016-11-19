@@ -30,14 +30,9 @@ public class Grid {
         return columns.length;
     }
 
-    public void dropToken(String columnInput, String token) {
-        try {
-            int column = Integer.parseInt(columnInput);
-            this.lastDroppedColumn = getColumn(column);
-            lastDroppedColumn.placeToken(token);
-        } catch (NumberFormatException e) {
-            throw new InvalidColumnException("invalid column " + columnInput + " column must be integer value");
-        }
+    public void dropToken(int column, String token) {
+        this.lastDroppedColumn = getColumn(column);
+        lastDroppedColumn.placeToken(token);
     }
 
     public int getTopOfColumn(int index) {
@@ -83,7 +78,7 @@ public class Grid {
 
     public void reset() {
         lastDroppedColumn = null;
-        for (int c = 0; c < columns.length; c ++) {
+        for (int c = 0; c < columns.length; c++) {
             int id = c + 1;
             columns[c] = new Column(id, numberOfRows);
         }
@@ -125,7 +120,7 @@ public class Grid {
     private Point getStartOfForwardSlashDiagonalFromLastDroppedColumn() {
         int row = lastDroppedColumn.getTop();
         int col = lastDroppedColumn.getId();
-        while(row > 1 && col > 1) {
+        while (row > 1 && col > 1) {
             row--;
             col--;
         }
@@ -135,7 +130,7 @@ public class Grid {
     private Point getStartOfBackSlashDiagonalFromLastDroppedColumn() {
         int row = lastDroppedColumn.getTop();
         int col = lastDroppedColumn.getId();
-        while(row < numberOfRows() && col > 1) {
+        while (row < numberOfRows() && col > 1) {
             row++;
             col--;
         }
@@ -151,7 +146,7 @@ public class Grid {
             tokens.add(getToken(col, row));
             row++;
             col++;
-        } while(row <= numberOfRows() && col <= numberOfColumns());
+        } while (row <= numberOfRows() && col <= numberOfColumns());
 
         return tokens;
     }
@@ -165,7 +160,7 @@ public class Grid {
             tokens.add(getToken(col, row));
             row--;
             col++;
-        } while(row >= 1 && col <= numberOfColumns());
+        } while (row >= 1 && col <= numberOfColumns());
 
         return tokens;
     }

@@ -257,7 +257,7 @@ public class GuiConnectFour extends JFrame {
             Player player = connectFour.getCurrentPlayer();
             square.setPlayer(player);
 
-            connectFour.dropToken(Integer.toString(column.getIndex()));
+            connectFour.dropToken(column.getIndex());
         }
 
         private void disableColumnIfFull() {

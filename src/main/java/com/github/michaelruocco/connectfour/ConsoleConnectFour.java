@@ -46,7 +46,7 @@ public class ConsoleConnectFour {
         try {
             printGrid();
             printPlayerPrompt();
-            String column = getColumnInput();
+            int column = getColumnInput();
             connectFour.dropToken(column);
             return true;
         } catch (ConnectFourException e) {
@@ -60,8 +60,13 @@ public class ConsoleConnectFour {
         printStream.print(name + " player input column to drop token ");
     }
 
-    private String getColumnInput() {
-        return scanner.next();
+    private int getColumnInput() {
+        String columnInput = scanner.next();
+        try {
+            return Integer.parseInt(columnInput);
+        } catch (NumberFormatException e) {
+            throw new InvalidColumnException("invalid column " + columnInput + " column must be integer value", e);
+        }
     }
 
     private void printCurrentPlayerWins() {

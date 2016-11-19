@@ -6,4 +6,8 @@ public class ConnectFourException extends RuntimeException {
         super(message);
     }
 
+    public ConnectFourException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

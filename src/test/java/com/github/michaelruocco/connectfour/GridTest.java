@@ -46,12 +46,12 @@ public class GridTest {
 
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnIndexLessThanOne() {
-        grid.dropToken("0", RED_TOKEN);
+        grid.dropToken(0, RED_TOKEN);
     }
 
     @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfColumnIndexGreaterThanMaxColumns() {
-        String column = Integer.toString(MAX_COLUMNS + 1);
+        int column = MAX_COLUMNS + 1;
         grid.dropToken(column, RED_TOKEN);
     }
 
@@ -180,29 +180,24 @@ public class GridTest {
         grid.reset();
     }
 
-    @Test(expected = InvalidColumnException.class)
-    public void throwsErrorIfColumnInputIsNotInteger() {
-        grid.dropToken("invalid", RED_TOKEN);
-    }
-
     @Test
     public void returnsTopOfColumn() {
         int columnIndex = 1;
         assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(0);
 
-        grid.dropToken(Integer.toString(columnIndex), "R");
-        assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(1);
+        grid.dropToken(columnIndex, "R");
+        assertThat(columnIndex).isEqualTo(1);
 
-        grid.dropToken(Integer.toString(columnIndex), "R");
+        grid.dropToken(columnIndex, "R");
         assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(2);
 
-        grid.dropToken(Integer.toString(columnIndex), "R");
+        grid.dropToken(columnIndex, "R");
         assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(3);
     }
 
     private void dropTokensInColumn(String token, int column, int numberOfTokens) {
         for (int t = 0; t < numberOfTokens; t++) {
-            grid.dropToken(Integer.toString(column), token);
+            grid.dropToken(column, token);
         }
     }
 

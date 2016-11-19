@@ -54,11 +54,11 @@ public class ConnectFourTest {
 
     @Test
     public void dropsToken() {
-        connectFour.dropToken("1");
-        connectFour.dropToken("1");
-        connectFour.dropToken("2");
-        connectFour.dropToken("7");
-        connectFour.dropToken("7");
+        connectFour.dropToken(1);
+        connectFour.dropToken(1);
+        connectFour.dropToken(2);
+        connectFour.dropToken(7);
+        connectFour.dropToken(7);
 
         String expected = "- - - - - - -" + NEW_LINE +
                 "- - - - - - -" + NEW_LINE +
@@ -71,13 +71,8 @@ public class ConnectFourTest {
     }
 
     @Test(expected = InvalidColumnException.class)
-    public void throwsErrorIfTokenIsNotInteger() {
-        connectFour.dropToken("test");
-    }
-
-    @Test(expected = InvalidColumnException.class)
     public void throwsErrorIfTokenIsGreaterThanNumberOfColumns() {
-        connectFour.dropToken("8");
+        connectFour.dropToken(8);
     }
 
     @Test
@@ -85,21 +80,21 @@ public class ConnectFourTest {
         int columnIndex = 1;
         assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(0);
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(1);
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(2);
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.getTopOfColumn(columnIndex)).isEqualTo(3);
     }
 
     @Test
     public void shouldResetGame() {
-        connectFour.dropToken("2");
-        connectFour.dropToken("2");
-        connectFour.dropToken("2");
+        connectFour.dropToken(2);
+        connectFour.dropToken(2);
+        connectFour.dropToken(2);
 
         String expected = "- - - - - - -" + NEW_LINE +
                 "- - - - - - -" + NEW_LINE +
@@ -125,22 +120,22 @@ public class ConnectFourTest {
         int columnIndex = 2;
         assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.isColumnFull(columnIndex)).isFalse();
 
-        connectFour.dropToken(Integer.toString(columnIndex));
+        connectFour.dropToken(columnIndex);
         assertThat(connectFour.isColumnFull(columnIndex)).isTrue();
     }
 
