@@ -24,7 +24,7 @@ gradlew clean build
 To play the game you will need to build the fatJar using gradle by running:
 
 ```
-gradlew clean build fatJar
+gradlew clean build allJar
 ```
 
 The game can be played in two modes, with a gui interface or using the console.
@@ -34,13 +34,13 @@ Navigate into the build/libs directory and run the jar by running:
 java -jar connect-four-kata-all-1.0.0-SNAPSHOT.jar
 ```
 
-or
+this, will run the game in gui made by default, you can also run:
 
 ```
 java -jar connect-four-kata-all-1.0.0-SNAPSHOT.jar gui
 ```
 
-To play the game in gui mode, or
+To play the game in gui mode, and finally
 
 ```
 java -jar connect-four-kata-all-1.0.0-SNAPSHOT.jar console
