@@ -16,6 +16,7 @@ import static javax.swing.JOptionPane.*;
 public class GuiConnectFour extends JFrame {
 
     private final ConnectFour connectFour;
+    private final CurrentPlayerPanel currentPlayerPanel;
     private List<Column> columns;
 
     public GuiConnectFour(ConnectFour connectFour) {
@@ -33,14 +34,14 @@ public class GuiConnectFour extends JFrame {
             columns.add(column);
         }
 
-        CurrentPlayerPanel currentPlayerPanel = new CurrentPlayerPanel(connectFour);
+        currentPlayerPanel = new CurrentPlayerPanel(connectFour);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1, numberOfColumns));
         for (Column column : columns) {
             JButton button = column.getButton();
             buttonPanel.add(button);
-            ActionListener listener = new DropTokenActionListener(connectFour, this, column, currentPlayerPanel);
+            ActionListener listener = new DropTokenActionListener(connectFour, this, column);
             button.addActionListener(listener);
         }
 
@@ -67,7 +68,8 @@ public class GuiConnectFour extends JFrame {
         setVisible(true);
     }
 
-    public void showPlayerWins(Player player) {
+    public void showPlayerWins() {
+        Player player = connectFour.getCurrentPlayer();
         String message = player.getName() + " player wins!";
         Object[] options = {"Close", "Reset"};
         int i = showOptionDialog(this, message, "Winner!", YES_NO_OPTION, INFORMATION_MESSAGE, null, options, options[1]);
@@ -75,6 +77,16 @@ public class GuiConnectFour extends JFrame {
             reset();
         else
             close();
+    }
+
+    public boolean currentPlayerHasWon() {
+        return connectFour.currentPlayerHasWon();
+    }
+
+    public void switchPlayer() {
+        connectFour.switchCurrentPlayer();
+        currentPlayerPanel.displayCurrentPlayer();
+        currentPlayerPanel.repaint();
     }
 
     private void reset() {
@@ -97,8 +109,9 @@ public class GuiConnectFour extends JFrame {
             reset();
         }
 
-        public void setCircleColor(Color circleColor) {
-            this.circleColor = circleColor;
+        public void setPlayer(Player player) {
+            setCircleColor(player.getColor());
+            repaint();
         }
 
         public void reset() {
@@ -130,6 +143,10 @@ public class GuiConnectFour extends JFrame {
             if (getWidth() > getHeight())
                 return getHeight() / 2;
             return getWidth() / 2;
+        }
+
+        private void setCircleColor(Color circleColor) {
+            this.circleColor = circleColor;
         }
 
     }
@@ -211,23 +228,21 @@ public class GuiConnectFour extends JFrame {
 
         private final ConnectFour connectFour;
         private final Column column;
-        private final CurrentPlayerPanel currentPlayerPanel;
         private final GuiConnectFour guiConnectFour;
 
-        public DropTokenActionListener(ConnectFour connectFour, GuiConnectFour guiConnectFour, Column column, CurrentPlayerPanel currentPlayerPanel) {
+        public DropTokenActionListener(ConnectFour connectFour, GuiConnectFour guiConnectFour, Column column) {
             this.connectFour = connectFour;
             this.column = column;
-            this.currentPlayerPanel = currentPlayerPanel;
             this.guiConnectFour = guiConnectFour;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             takeTurn();
-            if (connectFour.currentPlayerHasWon()) {
-                guiConnectFour.showPlayerWins(connectFour.getCurrentPlayer());
+            if (guiConnectFour.currentPlayerHasWon()) {
+                guiConnectFour.showPlayerWins();
             } else {
-                switchPlayer();
+                guiConnectFour.switchPlayer();
             }
         }
 
@@ -240,8 +255,7 @@ public class GuiConnectFour extends JFrame {
             Square square = column.getTopSquare();
 
             Player player = connectFour.getCurrentPlayer();
-            square.setCircleColor(player.getColor());
-            square.repaint();
+            square.setPlayer(player);
 
             connectFour.dropToken(Integer.toString(column.getIndex()));
         }
@@ -249,12 +263,6 @@ public class GuiConnectFour extends JFrame {
         private void disableColumnIfFull() {
             if (connectFour.isColumnFull(column.getIndex()))
                 column.disableButton();
-        }
-
-        private void switchPlayer() {
-            connectFour.switchCurrentPlayer();
-            currentPlayerPanel.displayCurrentPlayer();
-            currentPlayerPanel.repaint();
         }
 
     }
