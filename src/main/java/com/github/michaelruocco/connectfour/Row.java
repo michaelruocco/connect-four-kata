@@ -6,14 +6,14 @@ import java.util.List;
 public class Row {
 
     private final List<String> tokens = new ArrayList<>();
+    private final StreakChecker checker = new StreakChecker();
 
     public void add(String token) {
         tokens.add(token);
     }
 
     public boolean hasWinner(String token) {
-        StreakChecker checker = new StreakChecker(tokens);
-        return checker.containsStreak(token);
+        return checker.containsStreak(tokens, token);
     }
 
     public String asString() {

@@ -5,15 +5,9 @@ import java.util.List;
 public class StreakChecker {
 
     private static final int STREAK_SIZE = 4;
-    private final List<String> tokens;
     private int streak;
 
-    public StreakChecker(List<String> tokens) {
-        this.tokens = tokens;
-        resetStreak();
-    }
-
-    public boolean containsStreak(String tokenToFind) {
+    public boolean containsStreak(List<String> tokens, String tokenToFind) {
         resetStreak();
         for (String token : tokens) {
             if (token.equals(tokenToFind)) {

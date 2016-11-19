@@ -7,6 +7,7 @@ public class Column {
     private static final String EMPTY_TOKEN = "-";
 
     private final Stack<String> tokens = new Stack<>();
+    private final StreakChecker checker = new StreakChecker();
     private final int id;
     private final int size;
 
@@ -38,8 +39,7 @@ public class Column {
     }
 
     public boolean hasWinner(String token) {
-        StreakChecker checker = new StreakChecker(tokens);
-        return checker.containsStreak(token);
+        return checker.containsStreak(tokens, token);
     }
 
     public int getTop() {

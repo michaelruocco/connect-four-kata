@@ -10,6 +10,7 @@ public class Grid {
 
     private static final String NEW_LINE = System.lineSeparator();
 
+    private final StreakChecker checker = new StreakChecker();
     private final int numberOfRows;
     private final Column[] columns;
     private Column lastDroppedColumn;
@@ -95,14 +96,13 @@ public class Grid {
 
     private boolean hasForwardSlashDiagonalWinner(String token) {
         List<String> tokens = getForwardSlashDiagonalTokensFromLastDroppedColumn();
-        StreakChecker checker = new StreakChecker(tokens);
-        return checker.containsStreak(token);
+
+        return checker.containsStreak(tokens, token);
     }
 
     private boolean hasBackSlashDiagonalWinner(String token) {
         List<String> tokens = getBackSlashDiagonalTokensFromLastDroppedColumn();
-        StreakChecker checker = new StreakChecker(tokens);
-        return checker.containsStreak(token);
+        return checker.containsStreak(tokens, token);
     }
 
     private List<String> getForwardSlashDiagonalTokensFromLastDroppedColumn() {
