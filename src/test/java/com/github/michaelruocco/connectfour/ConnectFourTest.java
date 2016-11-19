@@ -139,4 +139,18 @@ public class ConnectFourTest {
         assertThat(connectFour.isColumnFull(columnIndex)).isTrue();
     }
 
+    @Test
+    public void shouldReturnTokenEmptyTokenIfNoTokenDroppedAtPosition() {
+        Token token = connectFour.getToken(1, 1);
+        assertThat(token).isEqualTo(new EmptyToken());
+    }
+
+    @Test
+    public void shouldReturnTokenDroppedAtPosition() {
+        Token token = new RedToken();
+        connectFour.dropToken(1);
+
+        assertThat(connectFour.getToken(1, 1)).isEqualTo(token);
+    }
+
 }

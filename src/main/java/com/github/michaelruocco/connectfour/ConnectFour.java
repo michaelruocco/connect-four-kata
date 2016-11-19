@@ -1,7 +1,5 @@
 package com.github.michaelruocco.connectfour;
 
-import static java.awt.Color.*;
-
 public class ConnectFour {
 
     private static final int DEFAULT_NUMBER_OF_COLUMNS = 7;
@@ -67,6 +65,10 @@ public class ConnectFour {
 
     public boolean isColumnFull(int index) {
         return grid.isColumnFull(index);
+    }
+
+    public Token getToken(int column, int row) {
+        return grid.getToken(column, row);
     }
 
 }
