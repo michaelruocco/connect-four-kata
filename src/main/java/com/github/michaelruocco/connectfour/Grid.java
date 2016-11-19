@@ -5,11 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class Grid {
 
-    private static final String EMPTY_TOKEN = "-";
     private static final String NEW_LINE = System.lineSeparator();
 
     private final int numberOfRows;
@@ -32,7 +30,7 @@ public class Grid {
 
     public void dropToken(int column, String token) {
         this.lastDroppedColumn = getColumn(column);
-        lastDroppedColumn.placeToken(token);
+        lastDroppedColumn.dropToken(token);
     }
 
     public int getTopOfColumn(int index) {
@@ -204,54 +202,6 @@ public class Grid {
 
     private boolean noTokensDropped() {
         return lastDroppedColumn == null;
-    }
-
-    private static class Column {
-
-        private final Stack<String> tokens = new Stack<>();
-        private final int id;
-        private final int numberOfRows;
-
-        public Column(int id, int numberOfRows) {
-            this.id = id;
-            this.numberOfRows = numberOfRows;
-        }
-
-        public void placeToken(String token) {
-            if (isFull())
-                throw new ColumnFullException("column " + id + " is already full");
-            tokens.add(token);
-        }
-
-        public boolean isFull() {
-            return tokens.size() >= numberOfRows;
-        }
-
-        public String getToken(int row) {
-            int index = getRowIndex(row);
-            if (tokens.size() <= index) {
-                return EMPTY_TOKEN;
-            }
-            return tokens.get(index);
-        }
-
-        public boolean hasWinner(String token) {
-            StreakChecker checker = new StreakChecker(tokens);
-            return checker.containsStreak(token);
-        }
-
-        public int getTop() {
-            return tokens.size();
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        private int getRowIndex(int row) {
-            return row - 1;
-        }
-
     }
 
 }
