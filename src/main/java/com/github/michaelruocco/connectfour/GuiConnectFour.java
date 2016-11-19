@@ -84,7 +84,6 @@ public class GuiConnectFour extends JFrame {
     public void switchPlayer() {
         connectFour.switchCurrentPlayer();
         currentPlayerPanel.displayCurrentPlayer();
-        currentPlayerPanel.repaint();
     }
 
     public void dropToken(int columnIndex) {
@@ -180,17 +179,17 @@ public class GuiConnectFour extends JFrame {
             displayCurrentPlayer();
         }
 
-        public void displayCurrentPlayer() {
-            Player player = connectFour.getCurrentPlayer();
-            playerLabel.setText(player.getName());
-            playerLabel.setForeground(player.getColor());
-        }
-
         private void setUp() {
             JLabel label = new JLabel();
             label.setText("Current Player: ");
             add(label);
             add(playerLabel);
+        }
+
+        public void displayCurrentPlayer() {
+            Player player = connectFour.getCurrentPlayer();
+            playerLabel.setText(player.getName());
+            playerLabel.setForeground(player.getColor());
         }
 
     }
@@ -219,10 +218,6 @@ public class GuiConnectFour extends JFrame {
 
         public void add(Square square) {
             squares.add(square);
-        }
-
-        public int getIndex() {
-            return index;
         }
 
         public void reset() {
