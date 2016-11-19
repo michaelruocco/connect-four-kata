@@ -1,5 +1,9 @@
 package com.github.michaelruocco.connectfour;
 
+import com.github.michaelruocco.connectfour.model.ConnectFour;
+import com.github.michaelruocco.connectfour.view.ConsoleConnectFour;
+import com.github.michaelruocco.connectfour.view.GuiConnectFour;
+
 import java.util.Scanner;
 
 import static javax.swing.SwingUtilities.invokeLater;
