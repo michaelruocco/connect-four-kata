@@ -1,6 +1,6 @@
 package com.github.michaelruocco.connectfour.model;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class Token {
 
