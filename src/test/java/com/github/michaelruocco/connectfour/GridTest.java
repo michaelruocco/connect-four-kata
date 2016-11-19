@@ -9,9 +9,9 @@ public class GridTest {
 
     private static final int MAX_COLUMNS = 7;
     private static final int MAX_ROWS = 6;
-    private static final String EMPTY_TOKEN = "-";
-    private static final String RED_TOKEN = "R";
-    private static final String YELLOW_TOKEN = "Y";
+    private static final Token EMPTY_TOKEN = new EmptyToken();
+    private static final Token RED_TOKEN = new RedToken();
+    private static final Token YELLOW_TOKEN = new YellowToken();
     private static final String NEW_LINE = System.lineSeparator();
 
     private Grid grid = new Grid(MAX_ROWS, MAX_COLUMNS);
@@ -185,17 +185,17 @@ public class GridTest {
         int columnIndex = 1;
         assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(0);
 
-        grid.dropToken(columnIndex, "R");
+        grid.dropToken(columnIndex, RED_TOKEN);
         assertThat(columnIndex).isEqualTo(1);
 
-        grid.dropToken(columnIndex, "R");
+        grid.dropToken(columnIndex, RED_TOKEN);
         assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(2);
 
-        grid.dropToken(columnIndex, "R");
+        grid.dropToken(columnIndex, RED_TOKEN);
         assertThat(grid.getTopOfColumn(columnIndex)).isEqualTo(3);
     }
 
-    private void dropTokensInColumn(String token, int column, int numberOfTokens) {
+    private void dropTokensInColumn(Token token, int column, int numberOfTokens) {
         for (int t = 0; t < numberOfTokens; t++) {
             grid.dropToken(column, token);
         }

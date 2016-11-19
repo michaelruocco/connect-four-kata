@@ -29,7 +29,7 @@ public class Grid {
         return columns.length;
     }
 
-    public void dropToken(int column, String token) {
+    public void dropToken(int column, Token token) {
         this.lastDroppedColumn = getColumn(column);
         lastDroppedColumn.dropToken(token);
     }
@@ -44,7 +44,7 @@ public class Grid {
         return column.isFull();
     }
 
-    public String getToken(int column, int row) {
+    public Token getToken(int column, int row) {
         return getColumn(column).getToken(row);
     }
 
@@ -58,7 +58,7 @@ public class Grid {
         return StringUtils.chomp(s.toString());
     }
 
-    public boolean hasWinner(String token) {
+    public boolean hasWinner(Token token) {
         if (noTokensDropped())
             return false;
 
@@ -83,34 +83,32 @@ public class Grid {
         }
     }
 
-    private boolean hasVerticalWinner(String token) {
+    private boolean hasVerticalWinner(Token token) {
         return lastDroppedColumn.hasWinner(token);
 
     }
 
-    private boolean hasHorizontalWinner(String token) {
+    private boolean hasHorizontalWinner(Token token) {
         Row row = getLastDroppedRow();
         return row.hasWinner(token);
-
     }
 
-    private boolean hasForwardSlashDiagonalWinner(String token) {
-        List<String> tokens = getForwardSlashDiagonalTokensFromLastDroppedColumn();
-
+    private boolean hasForwardSlashDiagonalWinner(Token token) {
+        List<Token> tokens = getForwardSlashDiagonalTokensFromLastDroppedColumn();
         return checker.containsStreak(tokens, token);
     }
 
-    private boolean hasBackSlashDiagonalWinner(String token) {
-        List<String> tokens = getBackSlashDiagonalTokensFromLastDroppedColumn();
+    private boolean hasBackSlashDiagonalWinner(Token token) {
+        List<Token> tokens = getBackSlashDiagonalTokensFromLastDroppedColumn();
         return checker.containsStreak(tokens, token);
     }
 
-    private List<String> getForwardSlashDiagonalTokensFromLastDroppedColumn() {
+    private List<Token> getForwardSlashDiagonalTokensFromLastDroppedColumn() {
         Point startOfDiagonal = getStartOfForwardSlashDiagonalFromLastDroppedColumn();
         return getForwardSlashTokensFrom(startOfDiagonal);
     }
 
-    private List<String> getBackSlashDiagonalTokensFromLastDroppedColumn() {
+    private List<Token> getBackSlashDiagonalTokensFromLastDroppedColumn() {
         Point startOfDiagonal = getStartOfBackSlashDiagonalFromLastDroppedColumn();
         return getBackSlashTokensFrom(startOfDiagonal);
     }
@@ -135,11 +133,11 @@ public class Grid {
         return new Point(row, col);
     }
 
-    private List<String> getForwardSlashTokensFrom(Point point) {
+    private List<Token> getForwardSlashTokensFrom(Point point) {
         int row = point.x;
         int col = point.y;
 
-        List<String> tokens = new ArrayList<>();
+        List<Token> tokens = new ArrayList<>();
         do {
             tokens.add(getToken(col, row));
             row++;
@@ -149,11 +147,11 @@ public class Grid {
         return tokens;
     }
 
-    private List<String> getBackSlashTokensFrom(Point point) {
+    private List<Token> getBackSlashTokensFrom(Point point) {
         int row = point.x;
         int col = point.y;
 
-        List<String> tokens = new ArrayList<>();
+        List<Token> tokens = new ArrayList<>();
         do {
             tokens.add(getToken(col, row));
             row--;

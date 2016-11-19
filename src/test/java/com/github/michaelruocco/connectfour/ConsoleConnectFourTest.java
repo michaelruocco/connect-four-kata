@@ -24,7 +24,7 @@ public class ConsoleConnectFourTest {
         console.play();
 
         assertThat(console.currentPlayerHasWon()).isTrue();
-        assertThat(console.getCurrentPlayerName()).isEqualTo("Red");
+        assertThat(console.getCurrentPlayerName()).isEqualTo("Player 1");
     }
 
 }

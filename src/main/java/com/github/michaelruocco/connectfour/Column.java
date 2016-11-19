@@ -2,11 +2,13 @@ package com.github.michaelruocco.connectfour;
 
 import java.util.Stack;
 
+import static java.awt.Color.WHITE;
+
 public class Column {
 
-    private static final String EMPTY_TOKEN = "-";
+    private static final Token EMPTY_TOKEN = new Token(WHITE, "-");
 
-    private final Stack<String> tokens = new Stack<>();
+    private final Stack<Token> tokens = new Stack<>();
     private final StreakChecker checker = new StreakChecker();
     private final int id;
     private final int size;
@@ -20,7 +22,7 @@ public class Column {
         return id;
     }
 
-    public void dropToken(String token) {
+    public void dropToken(Token token) {
         if (isFull())
             throw new ColumnFullException("column " + id + " is already full");
         tokens.add(token);
@@ -30,7 +32,7 @@ public class Column {
         return tokens.size() >= size;
     }
 
-    public String getToken(int row) {
+    public Token getToken(int row) {
         int index = getRowIndex(row);
         if (tokens.size() <= index) {
             return EMPTY_TOKEN;
@@ -38,7 +40,7 @@ public class Column {
         return tokens.get(index);
     }
 
-    public boolean hasWinner(String token) {
+    public boolean hasWinner(Token token) {
         return checker.containsStreak(tokens, token);
     }
 

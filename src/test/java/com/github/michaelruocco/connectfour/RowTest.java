@@ -6,13 +6,13 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class RowTest {
 
-    private static final String TOKEN = "T";
+    private static final Token RED_TOKEN = new RedToken();
 
     private Row row = new Row();
 
     @Test
     public void initialRowShouldNotHaveAWinner() {
-        assertThat(row.hasWinner(TOKEN)).isFalse();
+        assertThat(row.hasWinner(RED_TOKEN)).isFalse();
     }
 
     @Test
@@ -22,40 +22,40 @@ public class RowTest {
 
     @Test
     public void shouldAddToken() {
-        row.add(TOKEN);
+        row.add(RED_TOKEN);
 
-        assertThat(row.asString()).isEqualTo(TOKEN);
+        assertThat(row.asString()).isEqualTo(RED_TOKEN.toString());
     }
 
     @Test
     public void shouldAddMultipleTokens() {
-        row.add(TOKEN);
-        row.add(TOKEN);
-        row.add(TOKEN);
+        row.add(RED_TOKEN);
+        row.add(RED_TOKEN);
+        row.add(RED_TOKEN);
 
-        assertThat(row.asString()).isEqualTo(TOKEN + " " + TOKEN + " " + TOKEN);
+        assertThat(row.asString()).isEqualTo(RED_TOKEN + " " + RED_TOKEN + " " + RED_TOKEN);
     }
 
     @Test
     public void shouldReturnWinnerIfContainsFourOfTheSameConsecutiveTokens() {
-        row.add(TOKEN);
-        row.add(TOKEN);
-        row.add(TOKEN);
-        assertThat(row.hasWinner(TOKEN)).isFalse();
+        row.add(RED_TOKEN);
+        row.add(RED_TOKEN);
+        row.add(RED_TOKEN);
+        assertThat(row.hasWinner(RED_TOKEN)).isFalse();
 
-        row.add(TOKEN);
-        assertThat(row.hasWinner(TOKEN)).isTrue();
+        row.add(RED_TOKEN);
+        assertThat(row.hasWinner(RED_TOKEN)).isTrue();
     }
 
     @Test
     public void shouldNotReturnWinnerIfContainsFourDifferentTokens() {
-        row.add(TOKEN);
-        row.add(TOKEN);
-        row.add(TOKEN);
-        assertThat(row.hasWinner(TOKEN)).isFalse();
+        row.add(RED_TOKEN);
+        row.add(RED_TOKEN);
+        row.add(RED_TOKEN);
+        assertThat(row.hasWinner(RED_TOKEN)).isFalse();
 
-        row.add("DIFFERENT TOKEN");
-        assertThat(row.hasWinner(TOKEN)).isFalse();
+        row.add(new YellowToken());
+        assertThat(row.hasWinner(RED_TOKEN)).isFalse();
     }
 
 }

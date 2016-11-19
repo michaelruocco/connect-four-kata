@@ -20,8 +20,8 @@ public class ConnectFourTest {
     }
 
     @Test
-    public void redPlayerGoesFirst() {
-        assertThat(connectFour.getCurrentPlayer().getName()).isEqualTo("Red");
+    public void playerOneGoesFirst() {
+        assertThat(connectFour.getCurrentPlayerName()).isEqualTo("Player 1");
     }
 
     @Test
@@ -43,13 +43,13 @@ public class ConnectFourTest {
 
     @Test
     public void switchesCurrentPlayer() {
-        assertThat(connectFour.getCurrentPlayer().getName()).isEqualTo("Red");
+        assertThat(connectFour.getCurrentPlayerName()).isEqualTo("Player 1");
         connectFour.switchCurrentPlayer();
-        assertThat(connectFour.getCurrentPlayer().getName()).isEqualTo("Yellow");
+        assertThat(connectFour.getCurrentPlayerName()).isEqualTo("Player 2");
         connectFour.switchCurrentPlayer();
-        assertThat(connectFour.getCurrentPlayer().getName()).isEqualTo("Red");
+        assertThat(connectFour.getCurrentPlayerName()).isEqualTo("Player 1");
         connectFour.switchCurrentPlayer();
-        assertThat(connectFour.getCurrentPlayer().getName()).isEqualTo("Yellow");
+        assertThat(connectFour.getCurrentPlayerName()).isEqualTo("Player 2");
     }
 
     @Test

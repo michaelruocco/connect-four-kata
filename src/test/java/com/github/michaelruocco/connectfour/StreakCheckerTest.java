@@ -10,46 +10,46 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class StreakCheckerTest {
 
-    private static final String TOKEN_TO_FIND = "T";
+    private static final Token RED_TOKEN = new RedToken();
 
     private final StreakChecker streakChecker = new StreakChecker();
 
     @Test
     public void shouldReturnFalseIfNotTokensPassed() {
-        List<String> tokens = Collections.emptyList();
+        List<Token> tokens = Collections.emptyList();
 
-        assertThat(streakChecker.containsStreak(tokens, TOKEN_TO_FIND)).isFalse();
+        assertThat(streakChecker.containsStreak(tokens, RED_TOKEN)).isFalse();
     }
 
     @Test
     public void shouldReturnFalseIfFourConsecutiveTokensNotFound() {
-        List<String> tokens = Arrays.asList(TOKEN_TO_FIND,
-                TOKEN_TO_FIND,
-                TOKEN_TO_FIND);
+        List<Token> tokens = Arrays.asList(RED_TOKEN,
+                RED_TOKEN,
+                RED_TOKEN);
 
-        assertThat(streakChecker.containsStreak(tokens, TOKEN_TO_FIND)).isFalse();
+        assertThat(streakChecker.containsStreak(tokens, RED_TOKEN)).isFalse();
     }
 
     @Test
     public void shouldReturnTrueIfFourConsecutiveTokensFound() {
-        List<String> tokens = Arrays.asList(TOKEN_TO_FIND,
-                TOKEN_TO_FIND,
-                TOKEN_TO_FIND,
-                TOKEN_TO_FIND);
+        List<Token> tokens = Arrays.asList(RED_TOKEN,
+                RED_TOKEN,
+                RED_TOKEN,
+                RED_TOKEN);
 
-        assertThat(streakChecker.containsStreak(tokens, TOKEN_TO_FIND)).isTrue();
+        assertThat(streakChecker.containsStreak(tokens, RED_TOKEN)).isTrue();
     }
 
     @Test
     public void shouldReturnTrueIfFourConsecutiveTokensFoundAfterDifferentTokenFound() {
-        List<String> tokens = Arrays.asList(TOKEN_TO_FIND,
-                "Different Token",
-                TOKEN_TO_FIND,
-                TOKEN_TO_FIND,
-                TOKEN_TO_FIND,
-                TOKEN_TO_FIND);
+        List<Token> tokens = Arrays.asList(RED_TOKEN,
+                new YellowToken(),
+                RED_TOKEN,
+                RED_TOKEN,
+                RED_TOKEN,
+                RED_TOKEN);
 
-        assertThat(streakChecker.containsStreak(tokens, TOKEN_TO_FIND)).isTrue();
+        assertThat(streakChecker.containsStreak(tokens, RED_TOKEN)).isTrue();
     }
 
 

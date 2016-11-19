@@ -2,30 +2,32 @@ package com.github.michaelruocco.connectfour;
 
 import org.junit.Test;
 
+import java.awt.*;
+
 import static java.awt.Color.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PlayerTest {
 
-    private Player redPlayer = new Player("Red", RED);
-    private Player yellowPlayer = new Player("Yellow", YELLOW);
+    private Player playerOne = new PlayerOne();
+    private Player playerTwo = new PlayerTwo();
 
     @Test
     public void shouldReturnName() {
-        assertThat(redPlayer.getName()).isEqualTo("Red");
-        assertThat(yellowPlayer.getName()).isEqualTo("Yellow");
+        assertThat(playerOne.getName()).isEqualTo("Player 1");
+        assertThat(playerTwo.getName()).isEqualTo("Player 2");
     }
 
     @Test
     public void shouldReturnToken() {
-        assertThat(redPlayer.getToken()).isEqualTo("R");
-        assertThat(yellowPlayer.getToken()).isEqualTo("Y");
+        assertThat(playerOne.getToken()).isEqualTo(new RedToken());
+        assertThat(playerTwo.getToken()).isEqualTo(new YellowToken());
     }
 
     @Test
     public void shouldReturnColor() {
-        assertThat(redPlayer.getColor()).isEqualTo(RED);
-        assertThat(yellowPlayer.getColor()).isEqualTo(YELLOW);
+        assertThat(playerOne.getColor()).isEqualTo(RED);
+        assertThat(playerTwo.getColor()).isEqualTo(YELLOW);
     }
 
 }

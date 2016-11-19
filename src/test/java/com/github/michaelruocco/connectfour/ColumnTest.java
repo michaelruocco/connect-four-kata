@@ -8,7 +8,8 @@ public class ColumnTest {
 
     private static final int ID = 1;
     private static final int SIZE = 6;
-    private static final String TOKEN = "T";
+    private static final Token RED_TOKEN = new RedToken();
+    private static final Token EMPTY_TOKEN = new EmptyToken();
 
     private final Column column = new Column(ID, SIZE);
 
@@ -24,7 +25,7 @@ public class ColumnTest {
 
     @Test
     public void initialColumnShouldNotHaveAWinner() {
-        assertThat(column.hasWinner(TOKEN)).isFalse();
+        assertThat(column.hasWinner(RED_TOKEN)).isFalse();
     }
 
     @Test
@@ -39,56 +40,56 @@ public class ColumnTest {
 
     @Test
     public void shouldReturnEmptyTokenIfNoTokenPresentOnRow() {
-        assertThat(column.getToken(1)).isEqualTo("-");
+        assertThat(column.getToken(1)).isEqualTo(EMPTY_TOKEN);
     }
 
     @Test
     public void shouldReturnTokenIfPresent() {
-        column.dropToken(TOKEN);
-        column.dropToken(TOKEN);
+        column.dropToken(RED_TOKEN);
+        column.dropToken(RED_TOKEN);
 
-        assertThat(column.getToken(1)).isEqualTo(TOKEN);
-        assertThat(column.getToken(2)).isEqualTo(TOKEN);
+        assertThat(column.getToken(1)).isEqualTo(RED_TOKEN);
+        assertThat(column.getToken(2)).isEqualTo(RED_TOKEN);
     }
 
     @Test
     public void shouldBeFullWhenTokenDroppedOnEveryRow() {
-        fillColumn(TOKEN);
+        fillColumn(RED_TOKEN);
 
         assertThat(column.isFull()).isTrue();
     }
 
     @Test(expected = ColumnFullException.class)
     public void shouldThrowColumnFullExceptionIfTokenIsDroppedWhenFull() {
-        fillColumn(TOKEN);
+        fillColumn(RED_TOKEN);
 
-        column.dropToken(TOKEN);
+        column.dropToken(RED_TOKEN);
     }
 
     @Test
     public void shouldReturnWinnerIfContainsFourOfTheSameConsecutiveTokens() {
-        column.dropToken(TOKEN);
-        column.dropToken(TOKEN);
-        column.dropToken(TOKEN);
-        assertThat(column.hasWinner(TOKEN)).isFalse();
+        column.dropToken(RED_TOKEN);
+        column.dropToken(RED_TOKEN);
+        column.dropToken(RED_TOKEN);
+        assertThat(column.hasWinner(RED_TOKEN)).isFalse();
 
-        column.dropToken(TOKEN);
-        assertThat(column.hasWinner(TOKEN)).isTrue();
+        column.dropToken(RED_TOKEN);
+        assertThat(column.hasWinner(RED_TOKEN)).isTrue();
     }
 
     @Test
     public void shouldNotReturnWinnerIfContainsFourDifferentTokens() {
-        column.dropToken(TOKEN);
-        column.dropToken(TOKEN);
-        column.dropToken(TOKEN);
-        assertThat(column.hasWinner(TOKEN)).isFalse();
+        column.dropToken(RED_TOKEN);
+        column.dropToken(RED_TOKEN);
+        column.dropToken(RED_TOKEN);
+        assertThat(column.hasWinner(RED_TOKEN)).isFalse();
 
-        column.dropToken("DIFFERENT TOKEN");
-        assertThat(column.hasWinner(TOKEN)).isFalse();
+        column.dropToken(new YellowToken());
+        assertThat(column.hasWinner(RED_TOKEN)).isFalse();
     }
 
 
-    private void fillColumn(String token) {
+    private void fillColumn(Token token) {
         for (int i = 0; i < SIZE; i++) {
             column.dropToken(token);
         }

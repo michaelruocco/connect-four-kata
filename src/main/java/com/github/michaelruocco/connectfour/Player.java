@@ -5,21 +5,23 @@ import java.awt.*;
 public class Player {
 
     private final String name;
-    private final Color color;
+    private final Token token;
 
-    public Player(String name, Color color) {
+    public Player(String name, Token token) {
         this.name = name;
-        this.color = color;
+        this.token = token;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getToken() {
-        return Character.toString(name.charAt(0));
+    public Token getToken() {
+        return token;
     }
 
-    public Color getColor() { return color; }
+    public Color getColor() {
+        return token.getColor();
+    }
 
 }

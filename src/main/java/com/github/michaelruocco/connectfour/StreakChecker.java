@@ -7,9 +7,9 @@ public class StreakChecker {
     private static final int STREAK_SIZE = 4;
     private int streak;
 
-    public boolean containsStreak(List<String> tokens, String tokenToFind) {
+    public boolean containsStreak(List<Token> tokens, Token tokenToFind) {
         resetStreak();
-        for (String token : tokens) {
+        for (Token token : tokens) {
             if (token.equals(tokenToFind)) {
                 incrementStreak();
                 if (hasStreak()) {

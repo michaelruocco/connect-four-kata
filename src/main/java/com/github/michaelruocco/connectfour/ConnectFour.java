@@ -6,12 +6,12 @@ public class ConnectFour {
 
     private static final int DEFAULT_NUMBER_OF_COLUMNS = 7;
     private static final int DEFAULT_NUMBER_OF_ROWS = 6;
-    private static final Player RED_PLAYER = new Player("Red", RED);
-    private static final Player YELLOW_PLAYER = new Player("Yellow", YELLOW);
+    private static final Player PLAYER_ONE = new PlayerOne();
+    private static final Player PLAYER_TWO = new PlayerTwo();
 
     private final Grid grid;
 
-    private Player currentPlayer = RED_PLAYER;
+    private Player currentPlayer = PLAYER_ONE;
 
     public ConnectFour() {
         this(DEFAULT_NUMBER_OF_ROWS, DEFAULT_NUMBER_OF_COLUMNS);
@@ -37,19 +37,23 @@ public class ConnectFour {
         return currentPlayer;
     }
 
+    public String getCurrentPlayerName() {
+        return currentPlayer.getName();
+    }
+
     public String getGridAsString() {
         return grid.asString();
     }
 
     public void switchCurrentPlayer() {
-        if (currentPlayer.equals(RED_PLAYER))
-            currentPlayer = YELLOW_PLAYER;
+        if (currentPlayer.equals(PLAYER_ONE))
+            currentPlayer = PLAYER_TWO;
         else
-            currentPlayer = RED_PLAYER;
+            currentPlayer = PLAYER_ONE;
     }
 
     public void dropToken(int column) {
-        String token = currentPlayer.getToken();
+        Token token = currentPlayer.getToken();
         grid.dropToken(column, token);
     }
 

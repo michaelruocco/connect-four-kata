@@ -5,21 +5,21 @@ import java.util.List;
 
 public class Row {
 
-    private final List<String> tokens = new ArrayList<>();
+    private final List<Token> tokens = new ArrayList<>();
     private final StreakChecker checker = new StreakChecker();
 
-    public void add(String token) {
+    public void add(Token token) {
         tokens.add(token);
     }
 
-    public boolean hasWinner(String token) {
+    public boolean hasWinner(Token token) {
         return checker.containsStreak(tokens, token);
     }
 
     public String asString() {
         StringBuilder s = new StringBuilder();
-        for (String token : tokens) {
-            s.append(token);
+        for (Token token : tokens) {
+            s.append(token.toString());
             s.append(" ");
         }
         return s.toString().trim();
