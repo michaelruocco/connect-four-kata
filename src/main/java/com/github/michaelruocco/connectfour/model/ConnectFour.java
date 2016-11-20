@@ -8,6 +8,7 @@ public class ConnectFour {
     private static final Player PLAYER_TWO = new PlayerTwo();
 
     private final Grid grid;
+    private final GridChecker gridChecker;
 
     private Player currentPlayer = PLAYER_ONE;
 
@@ -17,6 +18,7 @@ public class ConnectFour {
 
     public ConnectFour(int numberOfRows, int numberOfColumns) {
         this.grid = new Grid(numberOfRows, numberOfColumns);
+        this.gridChecker = new GridChecker(grid);
     }
 
     public int numberOfRows() {
@@ -28,7 +30,7 @@ public class ConnectFour {
     }
 
     public boolean currentPlayerHasWon() {
-        return grid.hasWinner(currentPlayer.getToken());
+        return gridChecker.hasWinner(currentPlayer.getToken());
     }
 
     public Player getCurrentPlayer() {

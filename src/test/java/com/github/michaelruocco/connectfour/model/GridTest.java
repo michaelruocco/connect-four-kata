@@ -1,6 +1,5 @@
 package com.github.michaelruocco.connectfour.model;
 
-import com.github.michaelruocco.connectfour.model.*;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -96,89 +95,6 @@ public class GridTest {
         expected.append("- R Y - R - -");
 
         assertThat(grid.asString()).isEqualTo(expected.toString());
-    }
-
-    @Test
-    public void returnsNoWinnerIfGridIsEmpty() {
-        assertThat(grid.hasWinner(RED_TOKEN)).isFalse();
-    }
-
-    @Test
-    public void returnsVerticalWinner() {
-        dropTokensInColumn(RED_TOKEN, 1, 4);
-        assertThat(grid.hasWinner(RED_TOKEN)).isTrue();
-        grid.reset();
-
-        dropTokensInColumn(YELLOW_TOKEN, 6, 2);
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
-
-        dropTokensInColumn(RED_TOKEN, 6, 4);
-        assertThat(grid.hasWinner(RED_TOKEN)).isTrue();
-    }
-
-    @Test
-    public void returnsHorizontalWinner() {
-        dropTokensInColumn(RED_TOKEN, 1, 1);
-        dropTokensInColumn(RED_TOKEN, 2, 1);
-        dropTokensInColumn(RED_TOKEN, 3, 1);
-        dropTokensInColumn(RED_TOKEN, 4, 1);
-        assertThat(grid.hasWinner(RED_TOKEN)).isTrue();
-        grid.reset();
-
-        dropTokensInColumn(RED_TOKEN, 3, 1);
-        dropTokensInColumn(YELLOW_TOKEN, 4, 1);
-        dropTokensInColumn(RED_TOKEN, 5, 1);
-        dropTokensInColumn(YELLOW_TOKEN, 6, 1);
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
-
-        dropTokensInColumn(RED_TOKEN, 3, 1);
-        dropTokensInColumn(YELLOW_TOKEN, 4, 1);
-        dropTokensInColumn(RED_TOKEN, 5, 1);
-        dropTokensInColumn(YELLOW_TOKEN, 6, 1);
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
-
-        dropTokensInColumn(YELLOW_TOKEN, 3, 1);
-        dropTokensInColumn(YELLOW_TOKEN, 4, 1);
-        dropTokensInColumn(YELLOW_TOKEN, 5, 1);
-        dropTokensInColumn(YELLOW_TOKEN, 6, 1);
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
-    }
-
-    @Test
-    public void resetShouldClearWinners() {
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
-        dropTokensInColumn(YELLOW_TOKEN, 1, 4);
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
-
-        grid.reset();
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
-    }
-
-    @Test
-    public void returnsForwardSlashDiagonalWinner() {
-        dropTokensInColumn(YELLOW_TOKEN, 3, 1);
-        dropTokensInColumn(YELLOW_TOKEN, 4, 2);
-        dropTokensInColumn(YELLOW_TOKEN, 5, 3);
-        dropTokensInColumn(RED_TOKEN, 6, 2);
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
-
-        dropTokensInColumn(YELLOW_TOKEN, 6, 2);
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
-        grid.reset();
-    }
-
-    @Test
-    public void returnsBackSlashDiagonalWinner() {
-        dropTokensInColumn(RED_TOKEN, 2, 2);
-        dropTokensInColumn(YELLOW_TOKEN, 2, 2);
-        dropTokensInColumn(YELLOW_TOKEN, 3, 3);
-        dropTokensInColumn(YELLOW_TOKEN, 4, 2);
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isFalse();
-
-        dropTokensInColumn(YELLOW_TOKEN, 5, 1);
-        System.out.println(grid.asString());
-        assertThat(grid.hasWinner(YELLOW_TOKEN)).isTrue();
-        grid.reset();
     }
 
     @Test

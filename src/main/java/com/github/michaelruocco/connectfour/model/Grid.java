@@ -68,11 +68,6 @@ public class Grid {
         return StringUtils.chomp(s.toString());
     }
 
-    public boolean hasWinner(Token token) {
-        GridChecker gridChecker = new GridChecker(this);
-        return gridChecker.hasWinner(token);
-    }
-
     public void reset() {
         lastDroppedColumn = null;
         for (int c = 0; c < columns.length; c++) {
