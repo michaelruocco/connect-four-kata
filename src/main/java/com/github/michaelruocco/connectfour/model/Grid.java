@@ -2,7 +2,6 @@ package com.github.michaelruocco.connectfour.model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,6 @@ public class Grid {
 
     private static final String NEW_LINE = System.lineSeparator();
 
-    private final StreakChecker checker = new StreakChecker();
     private final int numberOfRows;
     private final Column[] columns;
     private Column lastDroppedColumn;
@@ -44,6 +42,18 @@ public class Grid {
         return column.isFull();
     }
 
+    public boolean isEmpty() {
+        return lastDroppedColumn == null;
+    }
+
+    public Column getLastDroppedColumn() {
+        return lastDroppedColumn;
+    }
+
+    public Row getLastDroppedRow() {
+        return getRow(lastDroppedColumn.getTop());
+    }
+
     public Token getToken(int column, int row) {
         return getColumn(column).getToken(row);
     }
@@ -59,20 +69,8 @@ public class Grid {
     }
 
     public boolean hasWinner(Token token) {
-        if (noTokensDropped())
-            return false;
-
-        if (hasVerticalWinner(token))
-            return true;
-
-        if (hasHorizontalWinner(token))
-            return true;
-
-        if (hasForwardSlashDiagonalWinner(token))
-            return true;
-
-        return hasBackSlashDiagonalWinner(token);
-
+        GridChecker gridChecker = new GridChecker(this);
+        return gridChecker.hasWinner(token);
     }
 
     public void reset() {
@@ -81,84 +79,6 @@ public class Grid {
             int id = c + 1;
             columns[c] = new Column(id, numberOfRows);
         }
-    }
-
-    private boolean hasVerticalWinner(Token token) {
-        return lastDroppedColumn.hasWinner(token);
-
-    }
-
-    private boolean hasHorizontalWinner(Token token) {
-        Row row = getLastDroppedRow();
-        return row.hasWinner(token);
-    }
-
-    private boolean hasForwardSlashDiagonalWinner(Token token) {
-        List<Token> tokens = getForwardSlashDiagonalTokensFromLastDroppedColumn();
-        return checker.containsStreak(tokens, token);
-    }
-
-    private boolean hasBackSlashDiagonalWinner(Token token) {
-        List<Token> tokens = getBackSlashDiagonalTokensFromLastDroppedColumn();
-        return checker.containsStreak(tokens, token);
-    }
-
-    private List<Token> getForwardSlashDiagonalTokensFromLastDroppedColumn() {
-        Point startOfDiagonal = getStartOfForwardSlashDiagonalFromLastDroppedColumn();
-        return getForwardSlashTokensFrom(startOfDiagonal);
-    }
-
-    private List<Token> getBackSlashDiagonalTokensFromLastDroppedColumn() {
-        Point startOfDiagonal = getStartOfBackSlashDiagonalFromLastDroppedColumn();
-        return getBackSlashTokensFrom(startOfDiagonal);
-    }
-
-    private Point getStartOfForwardSlashDiagonalFromLastDroppedColumn() {
-        int row = lastDroppedColumn.getTop();
-        int col = lastDroppedColumn.getId();
-        while (row > 1 && col > 1) {
-            row--;
-            col--;
-        }
-        return new Point(row, col);
-    }
-
-    private Point getStartOfBackSlashDiagonalFromLastDroppedColumn() {
-        int row = lastDroppedColumn.getTop();
-        int col = lastDroppedColumn.getId();
-        while (row < numberOfRows() && col > 1) {
-            row++;
-            col--;
-        }
-        return new Point(row, col);
-    }
-
-    private List<Token> getForwardSlashTokensFrom(Point point) {
-        int row = point.x;
-        int col = point.y;
-
-        List<Token> tokens = new ArrayList<>();
-        do {
-            tokens.add(getToken(col, row));
-            row++;
-            col++;
-        } while (row <= numberOfRows() && col <= numberOfColumns());
-
-        return tokens;
-    }
-
-    private List<Token> getBackSlashTokensFrom(Point point) {
-        int row = point.x;
-        int col = point.y;
-
-        List<Token> tokens = new ArrayList<>();
-        do {
-            tokens.add(getToken(col, row));
-            row--;
-            col++;
-        } while (row >= 1 && col <= numberOfColumns());
-
-        return tokens;
     }
 
     private Column getColumn(int column) {
@@ -192,14 +112,6 @@ public class Grid {
         for (int c = 1; c < numberOfColumns() + 1; c++)
             row.add(getToken(c, r));
         return row;
-    }
-
-    private Row getLastDroppedRow() {
-        return getRow(lastDroppedColumn.getTop());
-    }
-
-    private boolean noTokensDropped() {
-        return lastDroppedColumn == null;
     }
 
 }
