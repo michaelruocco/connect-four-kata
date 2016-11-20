@@ -56,6 +56,8 @@ public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlay
     @Override
     public void tokenDropped(int column, int row) {
         gridPanel.repaintSquare(column, row);
+        if (connectFour.isColumnFull(column))
+            buttonPanel.disableButton(column);
     }
 
     public void play() {
