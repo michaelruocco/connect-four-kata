@@ -8,6 +8,7 @@ public class DropTokenButton extends JButton {
 
     public DropTokenButton(int columnIndex) {
         super(Integer.toString(columnIndex));
+        this.setName("DropTokenButton" + columnIndex);
         this.columnIndex = columnIndex;
     }
 
