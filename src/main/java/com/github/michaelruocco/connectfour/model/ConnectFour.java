@@ -64,7 +64,6 @@ public class ConnectFour {
         Token token = currentPlayer.getToken();
         grid.dropToken(column, token);
         fireTokenDropped(column, grid.getTopOfColumn(column));
-        System.out.println("has winner " + gridChecker.hasWinner(currentPlayer.getToken()));
         if (gridChecker.hasWinner(currentPlayer.getToken()))
             firePlayerWins(currentPlayer);
     }
