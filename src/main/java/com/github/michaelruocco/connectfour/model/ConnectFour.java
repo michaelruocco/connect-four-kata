@@ -1,5 +1,8 @@
 package com.github.michaelruocco.connectfour.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class ConnectFour {
 
     private static final int DEFAULT_NUMBER_OF_COLUMNS = 7;
@@ -9,6 +12,10 @@ public class ConnectFour {
 
     private final Grid grid;
     private final GridChecker gridChecker;
+
+    private final Collection<WinnerListener> winnerListeners = new ArrayList<>();
+    private final Collection<SwitchPlayerListener> switchPlayerListeners = new ArrayList<>();
+    private final Collection<DropTokenListener> dropTokenListeners = new ArrayList<>();
 
     private Player currentPlayer = PLAYER_ONE;
 
@@ -50,11 +57,16 @@ public class ConnectFour {
             currentPlayer = PLAYER_TWO;
         else
             currentPlayer = PLAYER_ONE;
+        firePlayerSwitched();
     }
 
     public void dropToken(int column) {
         Token token = currentPlayer.getToken();
         grid.dropToken(column, token);
+        fireTokenDropped(column, grid.getTopOfColumn(column));
+        System.out.println("has winner " + gridChecker.hasWinner(currentPlayer.getToken()));
+        if (gridChecker.hasWinner(currentPlayer.getToken()))
+            firePlayerWins(currentPlayer);
     }
 
     public int getTopOfColumn(int index) {
@@ -71,6 +83,30 @@ public class ConnectFour {
 
     public Token getToken(int column, int row) {
         return grid.getToken(column, row);
+    }
+
+    public void addWinnerListener(WinnerListener listener) {
+        winnerListeners.add(listener);
+    }
+
+    public void addSwitchPlayerListener(SwitchPlayerListener listener) {
+        switchPlayerListeners.add(listener);
+    }
+
+    public void addDropTokenListener(DropTokenListener listener) {
+        dropTokenListeners.add(listener);
+    }
+
+    private void firePlayerWins(Player player) {
+        winnerListeners.forEach(l -> l.playerWins(player));
+    }
+
+    private void firePlayerSwitched() {
+        switchPlayerListeners.forEach(SwitchPlayerListener::switchPlayer);
+    }
+
+    private void fireTokenDropped(int column, int row) {
+        dropTokenListeners.forEach(l -> l.tokenDropped(column, row));
     }
 
 }

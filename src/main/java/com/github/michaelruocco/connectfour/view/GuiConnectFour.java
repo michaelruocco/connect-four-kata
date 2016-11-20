@@ -1,7 +1,7 @@
 package com.github.michaelruocco.connectfour.view;
 
-import com.github.michaelruocco.connectfour.model.Player;
-import com.github.michaelruocco.connectfour.model.ConnectFour;
+import com.github.michaelruocco.connectfour.controller.DropTokenActionListener;
+import com.github.michaelruocco.connectfour.model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,21 +10,28 @@ import java.awt.event.WindowEvent;
 import static java.awt.event.WindowEvent.*;
 import static javax.swing.JOptionPane.*;
 
-public class GuiConnectFour extends JFrame {
+public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlayerListener, DropTokenListener {
 
     private final ConnectFour connectFour;
     private final ButtonPanel buttonPanel;
+    private final GridPanel gridPanel;
     private final CurrentPlayerPanel currentPlayerPanel;
 
     public GuiConnectFour(ConnectFour connectFour) {
         super("Connect Four");
         this.connectFour = connectFour;
-        int numberOfColumns = connectFour.numberOfColumns();
-        int numberOfRows = connectFour.numberOfRows();
 
-        this.buttonPanel = new ButtonPanel(this, numberOfColumns);
-        JPanel gridPanel = new GridPanel(connectFour);
+        connectFour.addWinnerListener(this);
+        connectFour.addSwitchPlayerListener(this);
+        connectFour.addDropTokenListener(this);
+
+        int numberOfColumns = connectFour.numberOfColumns();
+
+        this.buttonPanel = new ButtonPanel(numberOfColumns);
+        this.gridPanel = new GridPanel(connectFour);
         this.currentPlayerPanel = new CurrentPlayerPanel(connectFour);
+
+        buttonPanel.addDropTokenListener(new DropTokenActionListener(connectFour));
 
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
@@ -36,13 +43,27 @@ public class GuiConnectFour extends JFrame {
         getContentPane().add(container);
     }
 
+    @Override
+    public void playerWins(Player player) {
+        showPlayerWins(player);
+    }
+
+    @Override
+    public void switchPlayer() {
+        currentPlayerPanel.update();
+    }
+
+    @Override
+    public void tokenDropped(int column, int row) {
+        gridPanel.repaintSquare(column, row);
+    }
+
     public void play() {
         pack();
         setVisible(true);
     }
 
-    public void showPlayerWins() {
-        Player player = connectFour.getCurrentPlayer();
+    private void showPlayerWins(Player player) {
         String message = player.getName() + " player wins!";
         Object[] options = {"Close", "Reset"};
         int i = showOptionDialog(this, message, "Winner!", YES_NO_OPTION, INFORMATION_MESSAGE, null, options, options[1]);
@@ -50,22 +71,6 @@ public class GuiConnectFour extends JFrame {
             reset();
         else
             close();
-    }
-
-    public boolean currentPlayerHasWon() {
-        return connectFour.currentPlayerHasWon();
-    }
-
-    public void switchPlayer() {
-        connectFour.switchCurrentPlayer();
-        currentPlayerPanel.update();
-    }
-
-    public void dropToken(int columnIndex) {
-        connectFour.dropToken(columnIndex);
-        if (connectFour.isColumnFull(columnIndex))
-            buttonPanel.disableButton(columnIndex);
-        repaint();
     }
 
     private void reset() {

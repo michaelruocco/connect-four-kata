@@ -1,32 +1,40 @@
 package com.github.michaelruocco.connectfour.controller;
 
-import com.github.michaelruocco.connectfour.view.GuiConnectFour;
+import com.github.michaelruocco.connectfour.model.ConnectFour;
+import com.github.michaelruocco.connectfour.view.DropTokenButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DropTokenActionListener implements ActionListener {
 
-    private final GuiConnectFour guiConnectFour;
-    private final int columnIndex;
+    private final ConnectFour connectFour;
 
-    public DropTokenActionListener(GuiConnectFour guiConnectFour, int columnIndex) {
-        this.columnIndex = columnIndex;
-        this.guiConnectFour = guiConnectFour;
+    public DropTokenActionListener(ConnectFour connectFour) {
+        this.connectFour = connectFour;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        takeTurn();
-        if (guiConnectFour.currentPlayerHasWon()) {
-            guiConnectFour.showPlayerWins();
-        } else {
-            guiConnectFour.switchPlayer();
-        }
+        if (!shouldProcess(e))
+            return;
+
+        int columnIndex = getColumnIndex(e);
+        takeTurn(columnIndex);
     }
 
-    private void takeTurn() {
-        guiConnectFour.dropToken(columnIndex);
+    private boolean shouldProcess(ActionEvent e) {
+        return e.getSource() instanceof DropTokenButton;
+    }
+
+    private int getColumnIndex(ActionEvent e) {
+        DropTokenButton button = (DropTokenButton) e.getSource();
+        return button.getColumnIndex();
+    }
+
+    private void takeTurn(int columnIndex) {
+        connectFour.dropToken(columnIndex);
+        connectFour.switchCurrentPlayer();
     }
 
 }

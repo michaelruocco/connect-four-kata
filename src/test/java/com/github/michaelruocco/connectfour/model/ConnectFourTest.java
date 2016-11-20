@@ -154,4 +154,107 @@ public class ConnectFourTest {
         assertThat(connectFour.getToken(1, 1)).isEqualTo(token);
     }
 
+    @Test
+    public void shouldFireSwitchPlayerWhenPlayerSwitched() {
+        FakeSwitchPlayerListener listener = new FakeSwitchPlayerListener();
+        connectFour.addSwitchPlayerListener(listener);
+
+        connectFour.switchCurrentPlayer();
+        connectFour.switchCurrentPlayer();
+        connectFour.switchCurrentPlayer();
+
+        assertThat(listener.getCallCount()).isEqualTo(3);
+    }
+
+    @Test
+    public void shouldDropTokenPlayerWhenTokenDropped() {
+        FakeDropTokenListener listener = new FakeDropTokenListener();
+        connectFour.addDropTokenListener(listener);
+
+        connectFour.dropToken(1);
+        connectFour.dropToken(1);
+        connectFour.dropToken(1);
+
+        assertThat(listener.getCallCount()).isEqualTo(3);
+        assertThat(listener.getLastColumn()).isEqualTo(1);
+        assertThat(listener.getLastRow()).isEqualTo(3);
+    }
+
+    @Test
+    public void shouldNotifyWinnerWhenPlayerWins() {
+        FakeWinnerListener listener = new FakeWinnerListener();
+        connectFour.addWinnerListener(listener);
+
+        connectFour.dropToken(1);
+        connectFour.dropToken(1);
+        connectFour.dropToken(1);
+        connectFour.dropToken(1);
+
+        assertThat(listener.getCallCount()).isEqualTo(1);
+        assertThat(listener.getWinner().getName()).isEqualTo("Player 1");
+    }
+
+    private static class FakeSwitchPlayerListener implements SwitchPlayerListener {
+
+        private int callCount;
+
+        @Override
+        public void switchPlayer() {
+            callCount++;
+        }
+
+        public int getCallCount() {
+            return callCount;
+        }
+
+    }
+
+    private static class FakeWinnerListener implements WinnerListener {
+
+        private int callCount;
+        private Player winner;
+
+        @Override
+        public void playerWins(Player player) {
+            this.winner = player;
+            callCount++;
+        }
+
+        public int getCallCount() {
+            return callCount;
+        }
+
+        public Player getWinner() {
+            return winner;
+        }
+
+    }
+
+    private static class FakeDropTokenListener implements DropTokenListener {
+
+        private int callCount;
+        private int lastColumn;
+        private int lastRow;
+
+        @Override
+        public void tokenDropped(int column, int row) {
+            this.lastColumn = column;
+            this.lastRow = row;
+            callCount++;
+        }
+
+        public int getCallCount() {
+            return callCount;
+        }
+
+        public int getLastColumn() {
+            return lastColumn;
+        }
+
+        public int getLastRow() {
+            return lastRow;
+        }
+
+    }
+
 }
