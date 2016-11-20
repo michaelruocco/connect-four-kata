@@ -27,6 +27,8 @@ dependencies {
 
     testCompile 'org.assertj:assertj-core:3.5.2'
     testCompile 'junit:junit:4.12'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '2.0.2-beta'
+
 }
 
 task allJar(type: Jar) {
