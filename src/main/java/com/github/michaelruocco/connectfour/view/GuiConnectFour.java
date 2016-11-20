@@ -70,6 +70,7 @@ public class GuiConnectFour extends JFrame {
 
     private void reset() {
         connectFour.reset();
+        buttonPanel.reset();
         repaint();
     }
 

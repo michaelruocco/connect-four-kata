@@ -25,6 +25,11 @@ public class ButtonPanel extends JPanel {
         button.setEnabled(false);
     }
 
+    public void reset() {
+        for (JButton button : buttons)
+            button.setEnabled(true);
+    }
+
     private JButton createButton(GuiConnectFour guiConnectFour, int columnIndex) {
         JButton button = new JButton(Integer.toString(columnIndex));
         button.addActionListener(new DropTokenActionListener(guiConnectFour, columnIndex));
