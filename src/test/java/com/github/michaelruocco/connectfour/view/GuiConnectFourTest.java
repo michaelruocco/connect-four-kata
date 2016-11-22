@@ -1,12 +1,12 @@
 package com.github.michaelruocco.connectfour.view;
 
 import com.github.michaelruocco.connectfour.model.ConnectFour;
+import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.fixture.JButtonFixture;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.swing.*;
 
 public class GuiConnectFourTest {
 
@@ -26,14 +26,66 @@ public class GuiConnectFourTest {
 
     @Test
     public void shouldDisableButtonWhenColumnFull() {
-        fixture.button("DropTokenButton3").click();
-        fixture.button("DropTokenButton3").click();
-        fixture.button("DropTokenButton3").click();
-        fixture.button("DropTokenButton3").click();
-        fixture.button("DropTokenButton3").click();
-        fixture.button("DropTokenButton3").click();
+        int columnIndex = 3;
+        fillColumn(columnIndex);
 
-        fixture.button("DropTokenButton3").requireDisabled();
+        JButtonFixture button = getDropTokenButton(columnIndex);
+        button.requireDisabled();
+    }
+
+    @Test
+    public void canPlayGame() {
+        playGame();
+
+        DialogFixture dialog = getDialogByTitle("Winner!");
+        dialog.requireVisible();
+        dialog.button(new DialogButtonTextMatcher("Reset")).click();
+
+        playGame();
+
+        dialog = getDialogByTitle("Winner!");
+        dialog.requireVisible();
+    }
+
+    private void playGame() {
+        dropToken(3);
+        dropToken(4);
+        dropToken(3);
+        dropToken(4);
+        dropToken(3);
+        dropToken(4);
+        dropToken(3);
+    }
+
+    private DialogFixture getDialogByTitle(String title) {
+        return fixture.dialog(new DialogTitleMatcher(title));
+    }
+
+    private void fillColumn(int columnIndex) {
+        for (int i = 0; i < 6; i++)
+            dropToken(columnIndex);
+    }
+
+    private void dropToken(int columnIndex) {
+        String id = toDropTokenButtonId(columnIndex);
+        clickButton(id);
+    }
+
+    private void clickButton(String id) {
+        JButtonFixture button = getButton(id);
+        button.click();
+    }
+
+    private String toDropTokenButtonId(int columnIndex) {
+        return "DropTokenButton" + columnIndex;
+    }
+
+    private JButtonFixture getDropTokenButton(int columnIndex) {
+        return getButton(toDropTokenButtonId(columnIndex));
+    }
+
+    private JButtonFixture getButton(String id) {
+        return fixture.button(id);
     }
 
 }

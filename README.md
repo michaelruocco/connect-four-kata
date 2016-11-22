@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/michaelruocco/connect-four-kata.svg?branch=master)](https://travis-ci.org/michaelruocco/connect-four-kata)
 [![Coverage Status](https://coveralls.io/repos/github/michaelruocco/connect-four-kata/badge.svg?branch=master)](https://coveralls.io/github/michaelruocco/connect-four-kata?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/571b82c6fcd19a00518565e8/badge.svg?style=flat)](https://www.versioneye.com/user/projects/571b82c6fcd19a00518565e8)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/adef6c908cd1464d8374d9ade10736d5)](https://www.codacy.com/app/michael-ruocco/connect-four-kata?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelruocco/connect-four-kata&amp;utm_campaign=Badge_Grade)
 
 This project is my attempt at the connect four kata exercise that is outlined here:
