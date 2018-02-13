@@ -1,6 +1,5 @@
 package com.github.michaelruocco.connectfour.model;
 
-import com.github.michaelruocco.connectfour.model.*;
 import org.junit.Test;
 
 import static java.awt.Color.*;

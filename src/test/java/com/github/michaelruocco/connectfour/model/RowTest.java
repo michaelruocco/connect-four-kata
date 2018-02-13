@@ -1,9 +1,5 @@
 package com.github.michaelruocco.connectfour.model;
 
-import com.github.michaelruocco.connectfour.model.RedToken;
-import com.github.michaelruocco.connectfour.model.Row;
-import com.github.michaelruocco.connectfour.model.Token;
-import com.github.michaelruocco.connectfour.model.YellowToken;
 import org.junit.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;

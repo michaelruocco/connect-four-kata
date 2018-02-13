@@ -3,7 +3,6 @@ package com.github.michaelruocco.connectfour.view;
 import com.github.michaelruocco.connectfour.model.ConnectFour;
 import org.junit.Test;
 
-
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
