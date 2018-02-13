@@ -1,8 +1,8 @@
 package com.github.michaelruocco.connectfour.view;
 
 import com.github.michaelruocco.connectfour.model.ConnectFour;
-import com.github.michaelruocco.connectfour.view.ConsoleConnectFour;
 import org.junit.Test;
+
 
 import java.util.Scanner;
 

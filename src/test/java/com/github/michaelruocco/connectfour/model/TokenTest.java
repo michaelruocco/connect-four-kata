@@ -38,6 +38,11 @@ public class TokenTest {
     }
 
     @Test
+    public void equalsShouldReturnFalseForDifferentObjectType() {
+        assertThat(redToken.equals(new Object())).isFalse();
+    }
+
+    @Test
     public void hashCodeShouldReturnSameValueForSameToken() {
         int hash1 = redToken.hashCode();
         int hash2 = new RedToken().hashCode();

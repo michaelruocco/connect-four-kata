@@ -36,6 +36,17 @@ public class GuiConnectFourTest {
     }
 
     @Test
+    public void canResizeWindow() {
+        fixture.resizeWidthTo(800);
+
+        playGame();
+
+        DialogFixture dialog = getDialogByTitle("Winner!");
+        JButtonFixture button = dialog.button(new DialogButtonTextMatcher("Reset")).click();
+        assertThat(button).isNotNull();
+    }
+
+    @Test
     public void canPlayGame() {
         playGame();
 
