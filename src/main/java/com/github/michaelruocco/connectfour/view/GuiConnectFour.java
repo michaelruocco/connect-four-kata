@@ -9,7 +9,7 @@ import java.awt.event.WindowEvent;
 import static java.awt.event.WindowEvent.*;
 import static javax.swing.JOptionPane.*;
 
-public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlayerListener, com.github.michaelruocco.connectfour.model.DropTokenListener {
+public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlayerListener, DropTokenListener {
 
     private final ConnectFour connectFour;
     private final ButtonPanel buttonPanel;
