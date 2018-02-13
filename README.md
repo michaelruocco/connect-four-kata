@@ -66,16 +66,9 @@ Navigate into the build/libs directory and run the jar by running:
 java -jar connect-four-kata-all-1.0.0-SNAPSHOT.jar
 ```
 
-this, will run the game in gui made by default, you can also run:
-
-```
-java -jar connect-four-kata-all-1.0.0-SNAPSHOT.jar gui
-```
-
-To play the game in gui mode, and finally
+this, will run the game in gui made by default, to play the game in
+console mode you can run:
 
 ```
 java -jar connect-four-kata-all-1.0.0-SNAPSHOT.jar console
 ```
-
-To play the game in console mode.
