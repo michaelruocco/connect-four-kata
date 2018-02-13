@@ -10,9 +10,33 @@ http://agilekatas.co.uk/katas/ConnectFour-Kata
 
 The implementation has been developed using TDD and I have tried to keep the code as clean and simple as possible. Feedback and comments are very welcome!
 
-## Running the Tests
+## Running the tests
 
-You can run the unit tests for this project by running:
+This project is covered by both unit tests and integration tests.
+
+The integration tests test the UI and take slightly longer to run,
+this is why they have been split out from the unit tests so each
+set of tests can be run independently.
+
+### Running the unit tests
+
+To run just the unit tests you can run the command:
+
+```
+gradlew clean build -x integrationTest
+```
+
+### Running the integration tests
+
+To run just the integration tests you can run the command:
+
+```
+gradlew clean build -x test
+```
+
+### Running all the tests
+
+Finally to run all the integration tests you can run the command:
 
 ```
 gradlew clean build
