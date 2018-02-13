@@ -1,6 +1,5 @@
 package com.github.michaelruocco.connectfour.view;
 
-import com.github.michaelruocco.connectfour.controller.DropTokenActionListener;
 import com.github.michaelruocco.connectfour.model.*;
 
 import javax.swing.*;
@@ -10,7 +9,7 @@ import java.awt.event.WindowEvent;
 import static java.awt.event.WindowEvent.*;
 import static javax.swing.JOptionPane.*;
 
-public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlayerListener, DropTokenListener {
+public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlayerListener, com.github.michaelruocco.connectfour.model.DropTokenListener {
 
     private final ConnectFour connectFour;
     private final ButtonPanel buttonPanel;
@@ -25,13 +24,9 @@ public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlay
         connectFour.addSwitchPlayerListener(this);
         connectFour.addDropTokenListener(this);
 
-        int numberOfColumns = connectFour.numberOfColumns();
-
-        this.buttonPanel = new ButtonPanel(numberOfColumns);
+        this.buttonPanel = new ButtonPanel(connectFour);
         this.gridPanel = new GridPanel(connectFour);
         this.currentPlayerPanel = new CurrentPlayerPanel(connectFour);
-
-        buttonPanel.addDropTokenListener(new DropTokenActionListener(connectFour));
 
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
@@ -39,7 +34,7 @@ public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlay
         container.add(gridPanel, BorderLayout.CENTER);
         container.add(currentPlayerPanel, BorderLayout.PAGE_END);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getContentPane().add(container);
     }
 
@@ -56,8 +51,6 @@ public class GuiConnectFour extends JFrame implements WinnerListener, SwitchPlay
     @Override
     public void tokenDropped(int column, int row) {
         gridPanel.repaintSquare(column, row);
-        if (connectFour.isColumnFull(column))
-            buttonPanel.disableButton(column);
     }
 
     public void play() {

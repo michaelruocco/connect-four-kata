@@ -4,8 +4,6 @@ import com.github.michaelruocco.connectfour.model.ConnectFour;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GridPanel extends JPanel {
 

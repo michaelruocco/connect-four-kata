@@ -8,6 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class GuiConnectFourTest {
 
     private FrameFixture fixture;
@@ -30,7 +32,7 @@ public class GuiConnectFourTest {
         fillColumn(columnIndex);
 
         JButtonFixture button = getDropTokenButton(columnIndex);
-        button.requireDisabled();
+        assertThat(button.requireDisabled()).isNotNull();
     }
 
     @Test
@@ -44,7 +46,7 @@ public class GuiConnectFourTest {
         playGame();
 
         dialog = getDialogByTitle("Winner!");
-        dialog.requireVisible();
+        assertThat(dialog.requireVisible()).isNotNull();
     }
 
     private void playGame() {

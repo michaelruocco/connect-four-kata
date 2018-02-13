@@ -3,7 +3,6 @@ package com.github.michaelruocco.connectfour.model;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Fail.fail;
 
 public class GridCheckerTest {
 

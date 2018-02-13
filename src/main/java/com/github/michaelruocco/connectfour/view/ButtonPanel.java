@@ -1,37 +1,35 @@
 package com.github.michaelruocco.connectfour.view;
 
+import com.github.michaelruocco.connectfour.model.ConnectFour;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
 public class ButtonPanel extends JPanel {
 
-    private final List<JButton> buttons = new ArrayList<>();
+    private final List<AbstractAction> actions = new ArrayList<>();
 
-    public ButtonPanel(int numberOfColumns) {
+    public ButtonPanel(ConnectFour connectFour) {
+        int numberOfColumns = connectFour.numberOfColumns();
         setLayout(new GridLayout(1, numberOfColumns));
-        for (int c = 1; c <= numberOfColumns; c++) {
-            JButton button = new DropTokenButton(c);
-            buttons.add(button);
-            add(button);
+        for (int column = 1; column <= numberOfColumns; column++) {
+            DropTokenAction action = new DropTokenAction(connectFour, column);
+            actions.add(action);
+            add(toButton(action));
         }
     }
 
-    public void addDropTokenListener(ActionListener dropTokenListener) {
-        for (JButton button : buttons)
-            button.addActionListener(dropTokenListener);
-    }
-
-    public void disableButton(int columnIndex) {
-        JButton button = buttons.get(columnIndex - 1);
-        button.setEnabled(false);
-    }
-
     public void reset() {
-        for (JButton button : buttons)
-            button.setEnabled(true);
+        for (AbstractAction action : actions)
+            action.setEnabled(true);
+    }
+
+    private JButton toButton(AbstractAction action) {
+        JButton button = new JButton(action);
+        button.setName("DropTokenButton" + action.getValue(Action.NAME));
+        return button;
     }
 
 }

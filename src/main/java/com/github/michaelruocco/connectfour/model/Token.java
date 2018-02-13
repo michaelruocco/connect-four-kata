@@ -19,7 +19,7 @@ public class Token {
 
     @Override
     public boolean equals(Object object) {
-        if (object != null && object instanceof Token) {
+        if (object instanceof Token) {
             Token otherToken = (Token) object;
             return value.equals(otherToken.value);
         }

@@ -1,9 +1,5 @@
 package com.github.michaelruocco.connectfour.model;
 
-import com.github.michaelruocco.connectfour.model.EmptyToken;
-import com.github.michaelruocco.connectfour.model.RedToken;
-import com.github.michaelruocco.connectfour.model.Token;
-import com.github.michaelruocco.connectfour.model.YellowToken;
 import org.junit.Test;
 
 import static java.awt.Color.RED;
@@ -39,11 +35,6 @@ public class TokenTest {
     @Test
     public void equalsShouldReturnFalseForDifferentToken() {
         assertThat(redToken.equals(yellowToken)).isFalse();
-    }
-
-    @Test
-    public void equalsShouldReturnFalseForNull() {
-        assertThat(redToken.equals(null)).isFalse();
     }
 
     @Test
