@@ -53,6 +53,19 @@ gradlew dependencyUpdates
 
 ## Playing the Game
 
+To play the game you can run it from gradle in both gui or console mode
+by executing either of the below commands:
+
+```
+gradlew runGui
+```
+
+or
+
+```
+gradlew runConsole
+```
+
 To play the game you will need to build the fatJar using gradle by running:
 
 ```
